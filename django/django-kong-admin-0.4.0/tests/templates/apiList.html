@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>API列表</title>
+    <link rel="stylesheet" href="{% static 'css/apiregister.css' %}">
+</head>
+<body>
+    <div id="header"></div>
+    <div class="wrap clearfix">
+        <nav class="aside-navi fl">
+            <ul>
+                <li class="menu-title" style="font-size:20px; padding:10px 0 10px 20px;background:  #4782ba;color: #FFFFFF;">
+                    API服务类型
+                </li>
+                <li class="aside-item">
+                    <a href="/apiList">全部API</a>
+                </li>
+                <li class="aside-item">
+                    <a href="/apiCategory/1">数据操作</a>
+                </li>
+                <li class="aside-item">
+                    <a href="/apiCategory/2">生活服务</a>
+                </li>
+                <li class="aside-item">
+                    <a href="/apiCategory/3">定位服务</a>
+                </li>
+                <li class="aside-item">
+                    <a href="/apiCategory/4">交通信息</a>
+                </li>
+            </ul>
+        </nav>
+        <div id="apiListShow" class="api-list-show ml10 fl clearfix">
+            {% for api in api_list %}
+            <div class="api-list-item fl ml10 mb15">{{ api.APIChineseName }}
+                <div class="text-desc">
+                    <div>
+                        <span class="fs12" style="display: block">{{ api.API_description }}</span>
+                        <a href="../apiDetail/{{api.name}}" class="btn-list btn-blue">详细信息</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <!--<div class="api-list-item fl ml10 mb15">IP定位-->
+                <!--<div class="text-desc">-->
+                    <!--<div>-->
+                        <!--<span class="fs12" style="display: block">API是一个根据IP返回对应位置信息</span>-->
+                        <!--<a href="#" class="btn-list btn-blue">详细信息</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="api-list-item fl ml10 mb15">手机归属地查询-->
+                <!--<div class="text-desc">-->
+                    <!--<div>-->
+                        <!--<span class="fs12" style="display: block">根据手机号查询归属地</span>-->
+                        <!--<a href="#" class="btn-list btn-blue">详细信息</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="api-list-item fl ml10 mb15">手机归属地查询-->
+                <!--<div class="text-desc">-->
+                    <!--<div>-->
+                        <!--<span class="fs12" style="display: block">根据手机号查询归属地</span>-->
+                        <!--<a href="#" class="btn-list btn-blue">详细信息</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+    </div>
+    <script src="{% static 'js/jquery-2.2.1.min.js' %}"></script>
+<script>
+    $("#header").load("/apiHeader");
+//    $(".aside-item").bind("click",function(){
+//        $(this).addClass("active").siblings().removeClass("active");
+//    }
+    $(".aside-navi li a").each(function(){
+        $this = $(this);
+        var win = String(window.location);
+        win = win.substring(0, win.length-1);
+        var href = $this[0].href;
+        if(win === href){
+            $this.parent().addClass("active");
+        }
+    });
+</script>
+</body>
+</html>

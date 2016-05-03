@@ -1,0 +1,38 @@
+
+    <header>
+        <nav class="header-fix">
+            <div class="navbar-index clearfix">
+                <div class="brand">大数据平台</div>
+                <ul class="navbar-group">
+                    <li><a href="/api">首页</a></li>
+                    <li><a href="/apiList">API列表</a></li>
+                    <li><a href="/userCenter">用户中心</a></li>
+                </ul>
+
+                <div class="user">
+                    <!-- 用户未登陆成功时，显示注册和登录-->
+                        <a class="register" href="/API/pages/register.html">注册</a>
+                        <a class="login" href="/API/pages/login.html">登录</a>
+                    <!-- 用户注册成功时，显示用户名-->
+                        <!--<span>欢迎你：</span>-->
+                        <!--<a href="login.html">902实验室</a>-->
+                </div>
+            </div>
+        </nav>
+    </header>
+<script>
+    var win = String(window.location);
+        win = win.substring(0, win.length-1);
+    $(".navbar-group li a").each(function(){
+        $this = $(this);
+        var href = $this[0].href;
+        console.log(win);
+        console.log(href);
+        if(win === href){
+            $this.parent().addClass("active");
+        }
+    });
+    if(win.indexOf("apiCategory") !== -1){
+        $(".navbar-group li").eq(1).addClass("active");
+    }
+</script>
