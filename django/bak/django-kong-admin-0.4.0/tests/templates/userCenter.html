@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户中心</title>
+    <link rel="stylesheet" href="{% static 'css/apiregister.css' %}">
+</head>
+<body>
+    <div id="header"></div>
+    <div class="wrap">
+        <div class="mt40 clearfix">
+            <nav class="aside-navi fl">
+                <dl class="aside-navi-list first">
+                    <dt class="aside-navi-item">服务管理</dt>
+                    <dd class="aside-navi-item">
+                        <a href="#" class="navi-link navi-link-myservice active">我发布的API</a>
+                    </dd>
+                    <dd class="aside-navi-item">
+                        <a href="#" class=" navi-link navi-link-service-record">我申请的API</a>
+                    </dd>
+                </dl>
+            </nav>
+            <div id="myApiUpload" class="usercenter-show fl" style="display: block">
+                <div class="usercenter-title usercenter-wrapper">
+                    <a href="/registerApi" class="fr btn-green btn-create">发布新的API</a>
+                    <h2 class="title-letter">我发布的API</h2>
+                </div>
+                <div class="panel mt20">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>API名称</th>
+                                <th>API中文名称</th>
+                                <th>API类别</th>
+                                <th>API服务类别</th>
+                                <th>发布日期</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for api in my_apis%}
+                            <tr>
+                                <td>{{api.name}}</td>
+                                <td>{{api.APIChineseName}}</td>
+                                <td>{{api.get_APIcategory_display}}</td>
+                                <td>{{api.get_APIService_category_display}}</td>
+                                <td>{{api.created_at | date:"Y-m-d"}}</td>
+                                <td>
+                                    <a class="btn-table btn-blue" href="#">策略</a>
+                                    <a class="btn-table btn-edit" href="#">修改</a>
+                                    <!--<a class="btn-table btn-delete" href="#">删除</a>-->
+                                    <form action="/delete_api/" method="post">
+                                    <input type="submit" class="btn-table btn-delete" value="删除" name="due_date" />
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="myApiGet" class="usercenter-show fl" style="display: none">
+                <div class="usercenter-title usercenter-wrapper">
+                    <a href="/apiList" class="fr btn-green btn-create">API列表</a>
+                    <h2 class="title-letter">我申请的API</h2>
+                </div>
+                <div class="panel mt20">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>API名称</th>
+                            <th>API中文名称</th>
+                            <th>申请时间</th>
+                            <th>查看API</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for buy_api in buy_apis %}
+                        <tr>
+                            <td>{{buy_api.api.name}}</td>
+                            <td>{{buy_api.api.APIChineseName}}</td>
+                            <td>{{buy_api.created_at | date:"Y-m-d"}}</td>
+                            <td>
+                                <a class="btn-table btn-blue" href="/apiDetail/{{buy_api.api.name}}">API详情</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <!--<tr>-->
+                            <!--<td>快递查询查询</td>-->
+                            <!--<td>2016-04-20</td>-->
+                            <!--<td>-->
+                                <!--<a class="btn-table btn-blue" href="#">API详情</a>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="{% static 'js/jquery-2.2.1.min.js' %}"></script>
+<script src="{% static 'js/registerApi.js' %}"></script>
+</body>
+</html>

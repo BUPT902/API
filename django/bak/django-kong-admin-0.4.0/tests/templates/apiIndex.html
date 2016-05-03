@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>API平台</title>
+    <link rel="stylesheet" href="{% static 'css/apiregister.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <script type="text/javascript" src="{% static 'js/jquery_slide.js' %}" ></script>
+</head>
+<body>
+    <div id="header"></div>
+
+    <div class="wrap-outer">
+        <div class="wrap" style="background-color: #EFFAFE; margin-top: 60px">
+            <div class="container_image">
+                <a href="javascript:void(0)" tip="0" class="i_btn prev_L"></a>
+                <a href="javascript:void(0)" tip="1" class="i_btn next_R"></a>
+                <ul class="slide_img">
+                    <li class="on">
+                        <a href="javascript:void(0);"><img src="{% static 'img/za6_img.jpg' %}"/></a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)"><img src="{% static 'img/za7_img.jpg' %}" /></a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)"><img src="{% static 'img/za10_img.jpg' %}" /></a>
+                    </li>
+                </ul>
+            </div>
+            <div class="api-list-intro">
+                <div class="banner-flut mt30 ml40 mb15">
+                    <p class="index-title">数据API</p>
+                    <p class="index-text">使用API让开发更快捷</p>
+                    <p class="index-text mt15">利用API更方便的使用平台数据</p>
+                    <div>
+                        <a class="api-list mt15" href="../apiList">API列表</a>
+                    </div>
+                </div>
+            </div>
+            <div class="api-upload-intro clearfix" style="background-color: #fff">
+                <div class="api-upload-img"></div>
+                <div class="api-upload-text">
+                    <p class="index-title">注册API</p>
+                    <p class="index-text">注册您的API，我们帮您管理</p>
+                    <div>
+                        <a class="api-register mt15" href="/registerApi">API注册</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer"></div>
+    <script src="{% static 'js/jquery-2.2.1.min.js' %}"></script>
+    <script>
+        $("#header").load("../apiHeader");
+        $("#footer").load("../apiFooter");
+        $(function(){
+
+            var newopt={
+                w2:"180",//小图宽度
+                h2:"470"//小图高度
+            };
+
+            i_slide($(".container_image"),newopt);
+
+        });
+    </script>
+</body>
+</html>

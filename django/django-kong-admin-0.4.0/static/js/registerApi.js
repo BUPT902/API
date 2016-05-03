@@ -201,6 +201,7 @@ $(document).ready(function(){
             },
             success:function(response){
                 alert(response);
+                window.location.reload(true);
             }
         });
         $("#api-delete").hide();

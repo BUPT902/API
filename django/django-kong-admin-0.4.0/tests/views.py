@@ -1,10 +1,11 @@
 #coding=utf-8
 from django.shortcuts import render
 from kong_admin.models import APIReference, ParameterReference, HeaderReference, ErrorReference, ConsumerReference, KeyAuthReference
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response,  HttpResponse
 from django.template import RequestContext
 from kong_admin.views import synchronize_api_reference, synchronize_api_references, synchronize_consumer_reference, \
     synchronize_consumer_references
+import json
 
 
 # Create your views here.
@@ -72,6 +73,13 @@ def userCenter(request):
         'buy_apis':buy_apis,
     }
     return render_to_response('userCenter.html', context)
+
+
+def delete_api(request):
+    if request.method == "POST":
+        dict = request.POST.dict()
+        print(dict['apiName'])
+        # return HttpResponse('11232')
 
 
 def registerApi(request):
