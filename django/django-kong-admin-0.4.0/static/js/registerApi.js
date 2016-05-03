@@ -2,6 +2,7 @@
  * Created by lenovo on 2016/4/20.
  */
 $(document).ready(function(){
+    var apiName = "";
     $("#header").load("/apiHeader");
     $(".nav-list").bind("click", function (event) {
         var node = event.target;
@@ -176,5 +177,32 @@ $(document).ready(function(){
 
     $("#overlayConfirm").bind("click",function(){
         $("#jquery-msg-overlay").hide();
+    });
+
+    $("#api-table").bind("click",function(event){
+        var node = event.target;
+        if(node.className.indexOf("delete") !== -1){
+            $("#api-delete").show();
+            apiName = $(node).parent().parent().find("td").eq(0).text();
+        }
+    });
+
+    $("#overlayDeleteCancel").bind("click", function () {
+        $("#api-delete").hide();
+        apiName = "";
+    });
+
+    $("#overlayDeleteConfirm").bind("click", function () {
+        $.ajax({
+            type:"POST",
+            url:"/delete_api/",
+            data: {
+                apiName: apiName
+            },
+            success:function(response){
+                alert(response);
+            }
+        });
+        $("#api-delete").hide();
     });
 });
