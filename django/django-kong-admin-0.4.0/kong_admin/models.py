@@ -11,6 +11,28 @@ from jsonfield2 import JSONField, JSONAwareManager
 from .enums import Plugins
 from .validators import name_validator
 
+
+# class Userinfo(models.Model):
+#     userid = models.BigIntegerField(db_column='userId', primary_key=True)  # Field name made lowercase.
+#     username = models.CharField(db_column='userName', max_length=255)  # Field name made lowercase.
+#     password = models.CharField(max_length=255)
+#     insertdate = models.DateTimeField(db_column='insertDate', blank=True, null=True)  # Field name made lowercase.
+#     email = models.CharField(max_length=255, blank=True, null=True)
+#     apikey = models.CharField(db_column='apiKey', max_length=255, blank=True, null=True)  # Field name made lowercase.
+#     hobby = models.CharField(max_length=255, blank=True, null=True)
+#     profession = models.CharField(max_length=255, blank=True, null=True)
+#     company = models.CharField(max_length=255, blank=True, null=True)
+#     department = models.CharField(max_length=255, blank=True, null=True)
+#     type = models.CharField(max_length=255, blank=True, null=True)
+#     plate = models.CharField(max_length=255, blank=True, null=True)
+#     url = models.CharField(max_length=255, blank=True, null=True)
+#
+#     class Meta:
+#         managed = False
+#         db_table = 'userinfo'
+
+
+
 class KongProxyModel(models.Model):
     kong_id = models.UUIDField(null=True, blank=True, editable=False)
 

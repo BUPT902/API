@@ -12,7 +12,7 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'Django-test',    #你的数据库名称
+#         'NAME': 'bigdatadev',    #你的数据库名称
 #         'USER': 'bigdata',   #你的数据库用户名
 #         'PASSWORD': 'bigdata@123', #你的数据库密码
 #         'HOST': '182.254.134.204', #你的数据库主机，留空默认为localhost

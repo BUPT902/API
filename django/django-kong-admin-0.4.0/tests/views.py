@@ -1,7 +1,7 @@
 #coding=utf-8
 from django.shortcuts import render
 from kong_admin.models import APIReference, ParameterReference, HeaderReference, ErrorReference, ConsumerReference, KeyAuthReference
-from django.shortcuts import render_to_response,  HttpResponse
+from django.shortcuts import render_to_response,  HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from kong_admin.views import synchronize_api_reference, synchronize_api_references, synchronize_consumer_reference, \
     synchronize_consumer_references
@@ -39,9 +39,8 @@ def apiDetail(request, param1):
     api = APIReference.objects.get(name = param1)
     username = request.COOKIES.get('username', '')
     person = ConsumerReference.objects.get(username = username)
-    # api_key = person.KeyAuthReferences_related.all()
-    # print(api_key)
-    print(param1)
+    api_key = person.keyauthreference_related.all()[:1]
+    api_key = api_key[0]
     gateway_url = 'http://localhost:8000'
     url_Parameters = ParameterReference.objects.filter(api__name__exact = param1)
     Headers = HeaderReference.objects.filter(api__name__exact = param1)
@@ -56,7 +55,7 @@ def apiDetail(request, param1):
         'url_example' : url_example,
         'Headers' : Headers,
         'Errors' : Errors,
-        # 'api_key': api_key,
+        'api_key': api_key,
     }
     return render_to_response('apiDetail.html', context)
 
@@ -79,6 +78,10 @@ def delete_api(request):
     if request.method == "POST":
         dict = request.POST.dict()
         print(dict['apiName'])
+        api = APIReference.objects.get(name=dict['apiName'])
+        print(api)
+        api.delete()
+        HttpResponseRedirect('/userCenter/')
         # return HttpResponse('11232')
 
 
