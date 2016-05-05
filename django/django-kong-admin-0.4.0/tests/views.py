@@ -66,8 +66,8 @@ def userCenter(request):
     person = ConsumerReference.objects.get(username = username)
     apis = person.infos.all()
     buy_apis = person.Buy_consumer.all()
-    for i in buy_apis:
-        print(i.api)
+    # for i in buy_apis:
+    #     print(i.api)
     context = {
         'my_apis':apis,
         'buy_apis':buy_apis,
@@ -104,7 +104,7 @@ class APIForm(forms.ModelForm):
 
     class Meta:
         model = APIReference
-        exclude = []
+        exclude = ['owner', 'request_path', 'request_host', 'preserve_host', 'strip_request_path']
         widgets ={
             'APIChineseName' : forms.TextInput(attrs={'placeholder': u'请输入API中文名称'}),
             'API_description' : forms.Textarea(attrs={'class':'api-long apiSimpleIntro',
@@ -137,21 +137,35 @@ class APIForm(forms.ModelForm):
 def registerApi(request):
     # api = APIReference.objects.get(name = 'weather')
     # form = APIForm(instance = api)
-    form = APIForm()
-    ParaFormSet = formset_factory(ParamForm)
-    Paras = ParaFormSet()
-    for Para in Paras:
-        print(Para)
-    context = {
-        'form':form,
-        'Paras': Paras,
-    }
+    if request.method == "POST":
+        form = APIForm(request.POST)
+        if form.is_valid():
+            username = request.COOKIES.get('username', '')
+            API_new = form.save(commit=False)
+            API_new.request_path  = '/' + API_new.name
+            API_new.strip_request_path  = True
+            API_new.owner = ConsumerReference.objects.get(username = username)
+            API_new.save()
+            return HttpResponseRedirect('/userCenter')
+        else:
+            context = {
+                'form': form,
+            }
+    else:
+        form = APIForm()
+        ParaFormSet = formset_factory(ParamForm)
+        # Paras = ParaFormSet()
+        # for Para in Paras:
+        #     print(Para)
+        context = {
+            'form':form,
+            # 'Paras': Paras,
+        }
     return render_to_response('registerApi.html', context=context)
 
 
 def apiHandler(request):
-    HttpResponseRedirect('/userCenter')
-
+    pass
 
 def apiFooter(request):
     return render_to_response('model/apiFooter.html')

@@ -108,8 +108,8 @@ class APIReference(KongProxyModel):
         return text_type(self.upstream_url if not self.name else '%s (%s)' % (self.name, self.upstream_url))
 
     def clean(self):
-        if not self.request_host and not self.request_path:
-            raise ValidationError('At least one of the parameters "request_host" and "request_path" should be set')
+        # if not self.request_host and not self.request_path:
+        #     raise ValidationError('At least one of the parameters "request_host" and "request_path" should be set')
 
         if self.synchronized_at and not self.kong_id:
             raise ValidationError('There should be an kong_id parameter')
