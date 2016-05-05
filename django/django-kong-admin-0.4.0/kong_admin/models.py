@@ -70,7 +70,7 @@ class APIReference(KongProxyModel):
         'Strip the request_path value before proxying the request to the final API. For example a request made to '
         '/someservice/hello will be resolved to upstream_url/hello. By default is false.'))
     enabled = models.BooleanField(default=True)
-    API_description = models.TextField(u"API描述", null=True, blank=True, help_text=_(u'请输入API描述'))
+    API_description = models.TextField(u"API介绍", null=True, blank=True, help_text=_(u'请输入API介绍'))
     returnSample = models.TextField(u"返回样例", null=True, blank=True, help_text=_(u'请输出API的返回样例'))
     remake = models.TextField(u"备注", null=True, blank=True, help_text=_(u"请输入备注"))
     REST_METHOD_CHOICES =(
@@ -95,7 +95,10 @@ class APIReference(KongProxyModel):
                                    help_text=_(u"请选择API的类型"))
     requestType = models.CharField(u"API请求类型",max_length=10, choices=REST_METHOD_CHOICES, default='1', help_text=u"请选择API的请求类型")
     APIService_category = models.CharField(u"服务类型", choices=APIService_CHOICES, default='1', max_length=10,   help_text=u"请选择API的服务类型")
-    APIService_description = models.TextField(u"API服务简介", null=True, blank=True, help_text=u"请输出API的服务介绍")
+    APIShort_description = models.TextField(u"API简要简介", null=True, blank=True, help_text=u"请输入API的简要介绍")
+    APISecLimit = models.PositiveIntegerField(u"每秒调用峰值", default=0, help_text=u"请输入API的每秒调用峰值")
+    APIDayLimit = models.PositiveIntegerField(u"每秒调用峰值", default=0, help_text=u"请输入API的每日调用峰值")
+
 
     class Meta:
         verbose_name = _(u'API')

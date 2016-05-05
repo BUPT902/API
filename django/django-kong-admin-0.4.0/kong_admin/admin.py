@@ -67,7 +67,7 @@ class APIReferenceAdmin(ActionButtonModelAdmin):
     # form = APIReference_Form
     fieldsets = (
         (None, {
-            'fields': ('upstream_url', 'name', 'APIChineseName', 'owner', 'APIcategory', 'requestType', 'APIService_description', 'dataFileName', 'APIService_category')
+            'fields': ('upstream_url', 'name', 'APIChineseName', 'owner', 'APIcategory', 'requestType', 'dataFileName', 'APIService_category', 'APISecLimit', 'APIDayLimit')
         }),
         # (_('Host'), {
         #     'fields': ('request_host', 'preserve_host')
@@ -79,7 +79,7 @@ class APIReferenceAdmin(ActionButtonModelAdmin):
             'fields': ('created_at', 'updated_at')
         }),
         (_(u'描述'), {
-            'fields': ('API_description', 'returnSample', 'remake'),
+            'fields': ('APIShort_description', 'API_description', 'returnSample', 'remake'),
         }),
     )
     inlines = [
