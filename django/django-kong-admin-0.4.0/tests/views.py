@@ -42,7 +42,7 @@ def apiDetail(request, param1):
     person = ConsumerReference.objects.get(username = username)
     api_key = person.keyauthreference_related.all()[:1]
     api_key = api_key[0]
-    gateway_url = 'http://localhost:8000'
+    gateway_url = 'http://10.33.6.199:8000'
     url_Parameters = ParameterReference.objects.filter(api__name__exact = param1)
     Headers = HeaderReference.objects.filter(api__name__exact = param1)
     Errors  = ErrorReference.objects.filter(api__name__exact = param1)
@@ -90,12 +90,14 @@ class ParamForm(forms.ModelForm):
 
     class  Meta:
         model = ParameterReference
-        exclude  = []
+        exclude  = ['api']
         widgets = {
             'name' : forms.TextInput(attrs={'class': 'data-param-name',
                                             'placeholder' : u'英文',
+                                            }),
+            'type': forms.TextInput(attrs={'size' : 5,
 
-            }),
+                                        })
         }
 
 class APIForm(forms.ModelForm):
@@ -145,6 +147,10 @@ def registerApi(request):
         'Paras': Paras,
     }
     return render_to_response('registerApi.html', context=context)
+
+
+def apiHandler(request):
+    HttpResponseRedirect('/userCenter')
 
 
 def apiFooter(request):
