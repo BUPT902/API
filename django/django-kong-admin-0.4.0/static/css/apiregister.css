@@ -212,6 +212,10 @@ a{
     width: 352px;
     margin-top: 10px;
 }
+.form-item input[type=number] {
+    height: 40px;
+    padding: 0 10px;
+}
 .form-long-item input[type=url] {
     width: 764px;
     height: 40px;
