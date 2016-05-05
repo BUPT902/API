@@ -8,7 +8,7 @@ from kong_admin.views import synchronize_api_reference, synchronize_api_referenc
     synchronize_consumer_references
 import json
 from django import forms
-from django.forms import formset_factory
+from django.forms import formset_factory, inlineformset_factory
 
 # Create your views here.
 def index(request):
@@ -138,7 +138,10 @@ def registerApi(request):
     # api = APIReference.objects.get(name = 'weather')
     # form = APIForm(instance = api)
     if request.method == "POST":
+        print(request.POST)
         form = APIForm(request.POST)
+        para = ParamForm(request.POST)
+        print(para.errors)
         if form.is_valid():
             username = request.COOKIES.get('username', '')
             API_new = form.save(commit=False)
@@ -154,13 +157,13 @@ def registerApi(request):
             }
     else:
         form = APIForm()
-        ParaFormSet = formset_factory(ParamForm)
-        # Paras = ParaFormSet()
-        # for Para in Paras:
-        #     print(Para)
+        ParaFormSet = inlineformset_factory(APIReference, ParameterReference, exclude=[], extra=2, can_delete=False, form=ParamForm)
+        Paras = ParaFormSet()
+        for Para in Paras:
+            print(Para)
         context = {
             'form':form,
-            # 'Paras': Paras,
+            'Paras': Paras,
         }
     return render_to_response('registerApi.html', context=context)
 
