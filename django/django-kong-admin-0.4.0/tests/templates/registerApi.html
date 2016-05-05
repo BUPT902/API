@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>注册API</title>
-    <link rel="stylesheet" href="{% static 'css/apiregister.css' %}">
+    <!--<link rel="stylesheet" href="{% static 'css/apiregister.css' %}">-->
+    <link rel="stylesheet" href="../../static/css/apiregister.css">
 </head>
 
 <body>
@@ -112,13 +113,17 @@
                                     <!--<input id="apiEnglishName" type="text" placeholder="请输入API英文名称">-->
                                     {{form.name}}
                                 </div>
-                                <div class="form-item">
-                                    <label class="form-label">API访问链接</label>
-                                    {{form.upstream_url}}
-                                    <!--<input id="apiUrl" type="text" placeholder="请填写不含参数的url">-->
-                                </div>
                             </div>
                         </div>
+                        <section class="clearfix">
+                            <div class="fl">
+                                <div class="form-long-item">
+                                    <label class="form-label">API访问链接</label>
+                                    {{form.upstream_url}}
+                                    <!--<input id="apiUrl" type="url" placeholder="请填写不含参数的url">-->
+                                </div>
+                            </div>
+                        </section>
                         <section class="clearfix">
                             <div class="fl">
                                 <div class="form-item">
@@ -261,7 +266,9 @@
             </section>
         </section>
     </div>
-<script src="{% static 'js/jquery-2.2.1.min.js' %}"></script>
-<script src="{% static 'js/registerApi.js' %}"></script>
+<!--<script src="{% static 'js/jquery-2.2.1.min.js' %}"></script>-->
+<!--<script src="{% static 'js/registerApi.js' %}"></script>-->
+<script src="../../static/js/jquery-2.2.1.min.js"></script>
+<script src="../../static/js/registerApi.js"></script>
 </body>
 </html>

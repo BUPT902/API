@@ -198,6 +198,9 @@ a{
 .form-block .form-item {
     width: 392px;
 }
+.form-block .form-long-item {
+    width: 804px;
+}
 .form-block .form-label {
     display: inline-block;
     vertical-align: top;
@@ -205,9 +208,15 @@ a{
     width: 100%;
     padding-top: 20px;
 }
-.form-item input[type=text], .form-block textarea {
+.form-item input[type=text], .form-item input[type=number] ,.form-block textarea {
     width: 352px;
     margin-top: 10px;
+}
+.form-long-item input[type=url] {
+    width: 764px;
+    height: 40px;
+    margin-top: 10px;
+    padding: 0 10px;
 }
 .form-item select{
     width: 352px;
