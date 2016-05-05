@@ -205,8 +205,7 @@ $(document).ready(function(){
                 apiName: apiName
             },
             success:function(response){
-                alert(response);
-                window.location.reload(true);
+                window.location.href  = "/userCenter/";
             }
         });
         $("#api-delete").hide();

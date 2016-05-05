@@ -1,6 +1,7 @@
 #coding=utf-8
 from django.shortcuts import render
-from kong_admin.models import APIReference, ParameterReference, HeaderReference, ErrorReference, ConsumerReference, KeyAuthReference
+from kong_admin.models import APIReference, ParameterReference, HeaderReference, ErrorReference, ConsumerReference, KeyAuthReference,\
+    PluginConfigurationReference
 from django.shortcuts import render_to_response,  HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from kong_admin.views import synchronize_api_reference, synchronize_api_references, synchronize_consumer_reference, \
@@ -75,15 +76,7 @@ def userCenter(request):
     return render_to_response('userCenter.html', context)
 
 
-def delete_api(request):
-    if request.method == "POST":
-        dict = request.POST.dict()
-        print(dict['apiName'])
-        api = APIReference.objects.get(name=dict['apiName'])
-        print(api)
-        api.delete()
-        HttpResponseRedirect('/userCenter/')
-        # return HttpResponse('11232')
+
 
 
 class ParamForm(forms.ModelForm):
@@ -134,6 +127,13 @@ class APIForm(forms.ModelForm):
 
         }
 
+
+def ConfigPlugin(API):
+    obj = json.dumps({'time': '1'})
+    plugin = PluginConfigurationReference(api=API, plugin=2, config=obj)
+    plugin.save()
+
+
 def registerApi(request):
     # api = APIReference.objects.get(name = 'weather')
     # form = APIForm(instance = api)
@@ -143,9 +143,10 @@ def registerApi(request):
             username = request.COOKIES.get('username', '')
             API_new = form.save(commit=False)
             API_new.request_path  = '/' + API_new.name
-            API_new.strip_request_path  = True
+            API_new.strip_request_path = True
             API_new.owner = ConsumerReference.objects.get(username = username)
             API_new.save()
+            ConfigPlugin(API_new)
             return HttpResponseRedirect('/userCenter')
         else:
             context = {
@@ -163,6 +164,16 @@ def registerApi(request):
         }
     return render_to_response('registerApi.html', context=context)
 
+
+
+def delete_api(request):
+    if request.method == "POST":
+        dict = request.POST.dict()
+        print(dict['apiName'])
+        api = APIReference.objects.get(name=dict['apiName'])
+        print(api)
+        api.delete()
+        return HttpResponseRedirect('/userCenter/')
 
 def apiHandler(request):
     pass
