@@ -134,6 +134,11 @@ $(document).ready(function(){
         $(".block-cont").eq(0).css("display","block");
     });
 
+    $("#uploadApi").bind("click", function(){
+        alert("提交");
+        $("#apiInfo").submit();
+    });
+
     //=============================API列表的导航==========================//
 
 

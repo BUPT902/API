@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>注册API</title>
-    <!--<link rel="stylesheet" href="{% static 'css/apiregister.css' %}">-->
-    <link rel="stylesheet" href="../../static/css/apiregister.css">
+    <link rel="stylesheet" href="{% static 'css/apiregister.css' %}">
+    <!--<link rel="stylesheet" href="../../static/css/apiregister.css">-->
 </head>
 
 <body>
@@ -15,7 +15,7 @@
             <h5 class="title-name">API注册</h5>
         </div>
         <section class="service-opr-title">
-            <a class="btn btn-blue mt15 ml20" href="/api">提交审核</a>
+            <a id="uploadApi" class="btn btn-blue mt15 ml20">提交审核</a>
             <a class="btn btn-white mt15 ml20">取消</a>
         </section>
         <!--{{ form.as_p }}-->
@@ -36,10 +36,10 @@
                     </li>
                 </ul>
             </nav>
-            <section class="con-right mt20 fl">
+            <form id="apiInfo" class="con-right mt20 fl" action="/">
                 <section class="block-cont" style="display: block">
                     <h4>基本信息</h4>
-                    <form class="form-block">
+                    <div class="form-block">
                         <div class="clearfix">
                             <div>
                                 {{ form.APIcategory }}
@@ -93,11 +93,11 @@
                         <div class="mt20 clearfix">
                             <a id="next" class="btn btn-blue">下一步</a>
                         </div>
-                    </form>
+                    </div>
                 </section>
                 <section class="block-cont" style="display: none">
                     <h4>API信息</h4>
-                    <form class="form-block">
+                    <div class="form-block">
                         <div class="clearfix">
                             <div class="fl">
                                 <div class="form-item">
@@ -261,14 +261,14 @@
                         <div class="mt20 clearfix">
                             <a id="pre" class="btn btn-blue">上一步</a>
                         </div>
-                    </form>
+                    </div>
                 </section>
-            </section>
+            </form>
         </section>
     </div>
-<!--<script src="{% static 'js/jquery-2.2.1.min.js' %}"></script>-->
-<!--<script src="{% static 'js/registerApi.js' %}"></script>-->
-<script src="../../static/js/jquery-2.2.1.min.js"></script>
-<script src="../../static/js/registerApi.js"></script>
+<script src="{% static 'js/jquery-2.2.1.min.js' %}"></script>
+<script src="{% static 'js/registerApi.js' %}"></script>
+<!--<script src="../../static/js/jquery-2.2.1.min.js"></script>-->
+<!--<script src="../../static/js/registerApi.js"></script>-->
 </body>
 </html>
