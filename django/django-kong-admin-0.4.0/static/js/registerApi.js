@@ -207,8 +207,8 @@ $(document).ready(function(){
                 var item = {};
                 var $tds = $(this).find("td");
                 item.name = $tds.eq(0).find("input").val();
-                item.message = $tds.eq(2).find("input").val();
-                item.description = $tds.eq(3).find("input").val();
+                item.message = $tds.eq(1).find("input").val();
+                item.description = $tds.eq(2).find("input").val();
                 errorCode["errorCode"+i] = item;
             });
         }
@@ -225,13 +225,11 @@ $(document).ready(function(){
 
     $("#uploadApi").bind("click", function(){
         var result = getTotalData();
-        $("#apiInfo").submit(function(){
-            $('<input />').attr('type', 'hidden')
-                .attr('name', 'parameter')
-                .attr('value', result)
-                .appendTo('#apiInfo');
-        });
-        return true;
+        $('<input />').attr('type', 'hidden')
+            .attr('name', 'parameter')
+            .attr('value', result)
+            .appendTo('#apiInfo');
+        $("#apiInfo").submit();
     });
 
     //=============================API列表的导航==========================//
