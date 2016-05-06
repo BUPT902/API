@@ -54,6 +54,7 @@ class APIReference(KongProxyModel):
             'The API name. If none is specified, will default to the request_host or request_path.'))
     owner = models.ForeignKey('ConsumerReference', verbose_name=u'所属人', to_field = 'username', related_name='infos', help_text=_(u'API所属人'),
                                   null=True)
+    logo = models.ImageField(upload_to='image',  default='defaut.jpg', null=True, blank=True)
     dataFileName = models.CharField(u"API操作数据文件的名称", max_length=256, null=True, blank=True, help_text=u"API操作数据文件的名称")
     APIChineseName = models.CharField(u"API中文名", null=True, blank=True, max_length=32, default=None, help_text=_(
         u'请输入API的中文名'))

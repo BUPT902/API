@@ -67,7 +67,7 @@ class APIReferenceAdmin(ActionButtonModelAdmin):
     # form = APIReference_Form
     fieldsets = (
         (None, {
-            'fields': ('upstream_url', 'name', 'APIChineseName', 'owner', 'APIcategory', 'requestType', 'dataFileName', 'APIService_category', 'APISecLimit', 'APIDayLimit')
+            'fields': ('upstream_url', 'name', 'logo', 'APIChineseName', 'owner', 'APIcategory', 'requestType', 'dataFileName', 'APIService_category', 'APISecLimit', 'APIDayLimit')
         }),
         # (_('Host'), {
         #     'fields': ('request_host', 'preserve_host')

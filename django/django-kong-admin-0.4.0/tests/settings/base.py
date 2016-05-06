@@ -70,6 +70,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 #STATIC_URL = os.path.join(BASE_DIR2,'static/')
 STATIC_ROOT = os.path.join(BASE_DIR2,'static')
+MEDIA_ROOT = os.path.join(BASE_DIR2,'media')
+MEDIA_URL = '/media/'
 STATICFILES_DIRS = (
    os.path.join(os.path.dirname(BASE_DIR2), 'static/'),
    os.path.join(str(BASE_DIR2), 'templates/model/'),
