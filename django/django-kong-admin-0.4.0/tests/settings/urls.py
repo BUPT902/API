@@ -16,5 +16,6 @@ urlpatterns = [
     url(r'^userCenter/', 'tests.views.userCenter'),
     url(r'^registerApi/', 'tests.views.registerApi'),
     url(r'^delete_api/', 'tests.views.delete_api'),
-    url(r'^apiHandler/', 'tests.views.apiHandler')
+    url(r'^apiHandler/', 'tests.views.apiHandler'),
+    url(r'^registerConsumer$', 'tests.views.registerConsumer')
 ]

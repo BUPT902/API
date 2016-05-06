@@ -35,7 +35,7 @@
                     </li>
                 </ul>
             </nav>
-            <form id="apiInfo" class="con-right mt20 fl" action="/">
+            <form id="apiInfo" class="con-right mt20 fl" method="post">
                 <section class="block-cont" style="display: block">
                     <h4>基本信息</h4>
                     <div class="form-block">
@@ -153,14 +153,7 @@
                             <label class="mt20 form-label">请求参数
                                 <span class="ml15 c_999">(添加urlParam)</span>
                             </label>
-                            <form method="post" action="">
-                                {{ Paras.management_form }}
-                                <table>
-                                    {% for form in Paras %}
-                                        {{ form }}
-                                    {% endfor %}
-                                </table>
-                            </form>
+
                             <section>
                                 <table id="apiParam" class="service-api-table mt15">
                                     <thead>
@@ -263,6 +256,40 @@
                     </div>
                 </section>
             </form>
+            <form id="ParaForm" method="post">
+                                <table class="service-api-table mt15">
+                                    <thead>
+                                    <tr>
+                                        {% for form in Paras|slice:"1" %}
+                                            {# Include the hidden fields #}
+                                            {% for hidden in form.hidden_fields %}
+                                                {{ hidden }}
+                                            {% endfor %}
+                                            {# Include the visible fields #}
+                                            {% for field in form.visible_fields %}
+                                                <th>{{ field.label }}</th>
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for form in Paras %}
+                                        <tr>
+                                            {# Include the hidden fields #}
+                                            {% for hidden in form.hidden_fields %}
+                                                {{ hidden }}
+                                            {% endfor %}
+                                            {# Include the visible fields #}
+                                            {% for field in form.visible_fields %}
+                                                <td>{{ field }}</td>
+                                            {% endfor %}
+                                            {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                {{ Paras.management_form }}
+                            </form>
         </section>
     </div>
     <div id="totop" style="position:fixed;bottom:150px;right:50px;cursor: pointer;">
@@ -271,6 +298,15 @@
 <script src="{% static 'js/jquery-2.2.1.min.js' %}"></script>
 <script src="{% static 'js/registerApi.js' %}"></script>
 <script src="{% static 'js/totop.js' %}"></script>
+<script src="{% static 'js/jquery.formset.js' %}"></script>
+<script type="text/javascript">
+$(function() {
+    $('#ParaForm tbody tr').formset({
+//        prefix: '123',
+        prefix: '{{ Paras.prefix }}',
+    });
+})
+</script>
 <!--<script src="../../static/js/jquery-2.2.1.min.js"></script>-->
 <!--<script src="../../static/js/registerApi.js"></script>-->
 </body>

@@ -76,22 +76,23 @@ def userCenter(request):
     return render_to_response('userCenter.html', context)
 
 
-
-
-
 class ParamForm(forms.ModelForm):
 
-    class  Meta:
+    class Meta:
+        exclude = ['api']
         model = ParameterReference
-        exclude  = ['api']
         widgets = {
             'name' : forms.TextInput(attrs={'class': 'data-param-name',
                                             'placeholder' : u'英文',
                                             }),
-            'type': forms.TextInput(attrs={'size' : 5,
-
-                                        })
+            'type': forms.TextInput(attrs={'class':"select-fath data-param-type",
+                                        }),
+            'description' : forms.TextInput(attrs={'class' : "data-param-desc",
+            }),
+            'defaultValue' : forms.TextInput(attrs={'class':'data-param-default'}),
+            'id' :  forms.TextInput(attrs={'type':'hidden',},)
         }
+
 
 class APIForm(forms.ModelForm):
 
@@ -135,13 +136,10 @@ def ConfigPlugin(API):
 
 
 def registerApi(request):
-    # api = APIReference.objects.get(name = 'weather')
-    # form = APIForm(instance = api)
+    ParaFormSet = inlineformset_factory(APIReference, ParameterReference, extra=2, exclude=['api', 'id'], form=ParamForm, can_delete=True)
     if request.method == "POST":
         print(request.POST)
         form = APIForm(request.POST)
-        para = ParamForm(request.POST)
-        print(para.errors)
         if form.is_valid():
             username = request.COOKIES.get('username', '')
             API_new = form.save(commit=False)
@@ -150,6 +148,11 @@ def registerApi(request):
             API_new.owner = ConsumerReference.objects.get(username = username)
             API_new.save()
             ConfigPlugin(API_new)
+            paras = ParaFormSet(request.POST, instance=API_new)
+            if paras.is_valid():
+                for para in paras:
+                    print(para)
+                    para.save()
             return HttpResponseRedirect('/userCenter')
         else:
             context = {
@@ -157,13 +160,12 @@ def registerApi(request):
             }
     else:
         form = APIForm()
-        ParaFormSet = inlineformset_factory(APIReference, ParameterReference, exclude=[], extra=2, can_delete=False, form=ParamForm)
-        Paras = ParaFormSet()
-        for Para in Paras:
-            print(Para)
+        ParaForm = ParamForm()
+        Paras = ParaFormSet(prefix='para_fs')
         context = {
             'form':form,
             'Paras': Paras,
+            'ParaForm' : ParaForm,
         }
     return render_to_response('registerApi.html', context=context)
 
@@ -177,6 +179,19 @@ def delete_api(request):
         print(api)
         api.delete()
         return HttpResponseRedirect('/userCenter/')
+
+def registerConsumer(request):
+    if request.method == "GET":
+        print(request.GET)
+        name = request.GET.get('name')
+        back = request.GET.get('callback')
+        print(back)
+        print(type(name))
+        d = {}
+        d[name] = '1'
+        obj = json.dumps(d)
+        print(type(str(back+'('+ obj+')')))
+        return HttpResponse(str(back+'('+ obj+')'))
 
 def apiHandler(request):
     pass
