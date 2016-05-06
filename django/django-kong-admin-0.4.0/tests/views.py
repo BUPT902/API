@@ -76,22 +76,22 @@ def userCenter(request):
     return render_to_response('userCenter.html', context)
 
 
-class ParamForm(forms.ModelForm):
-
-    class Meta:
-        exclude = ['api']
-        model = ParameterReference
-        widgets = {
-            'name' : forms.TextInput(attrs={'class': 'data-param-name',
-                                            'placeholder' : u'英文',
-                                            }),
-            'type': forms.TextInput(attrs={'class':"select-fath data-param-type",
-                                        }),
-            'description' : forms.TextInput(attrs={'class' : "data-param-desc",
-            }),
-            'defaultValue' : forms.TextInput(attrs={'class':'data-param-default'}),
-            'id' :  forms.TextInput(attrs={'type':'hidden',},)
-        }
+# class ParamForm(forms.ModelForm):
+#
+#     class Meta:
+#         exclude = ['api']
+#         model = ParameterReference
+#         widgets = {
+#             'name' : forms.TextInput(attrs={'class': 'data-param-name',
+#                                             'placeholder' : u'英文',
+#                                             }),
+#             'type': forms.TextInput(attrs={'class':"select-fath data-param-type",
+#                                         }),
+#             'description' : forms.TextInput(attrs={'class' : "data-param-desc",
+#             }),
+#             'defaultValue' : forms.TextInput(attrs={'class':'data-param-default'}),
+#             'id' :  forms.TextInput(attrs={'type':'hidden',},)
+#         }
 
 
 class APIForm(forms.ModelForm):
@@ -135,37 +135,47 @@ def ConfigPlugin(API):
     plugin.save()
 
 
+def ConfigPara(API, parameter):
+    json_dict =  json.loads(parameter)
+    errorCode  = json_dict['errorCode']
+    header  =  json_dict['header']
+    param = json_dict['param']
+    for i in  errorCode:
+        error = ErrorReference(api=API, code=i['message'], message=i['name'], description=i['description'])
+        error.save()
+    for i in header:
+        head = HeaderReference(api=API, name=i['name'], type=i['type'], defaultValue=i['defaultValue'], description=i['description'], nessesary=i['nessesary'])
+        head.save()
+    for i in Param:
+        para = ParameterReference(api=API, name=i['name'], type=i['type'], defaultValue=i['defaultValue'], description=i['description'], nessesary=i['nessesary'])
+        para.save()
+    print(dict)
+
+
 def registerApi(request):
-    ParaFormSet = inlineformset_factory(APIReference, ParameterReference, extra=2, exclude=['api', 'id'], form=ParamForm, can_delete=True)
     if request.method == "POST":
-        print(request.POST)
-        form = APIForm(request.POST)
+        info = request.POST.copy()
+        parameter = info['parameter']
+        del info['parameter']
+        form = APIForm(info)
         if form.is_valid():
             username = request.COOKIES.get('username', '')
             API_new = form.save(commit=False)
-            API_new.request_path  = '/' + API_new.name
+            API_new.request_path = '/' + API_new.name
             API_new.strip_request_path = True
             API_new.owner = ConsumerReference.objects.get(username = username)
             API_new.save()
+            ConfigPara(API_new, parameter)
             ConfigPlugin(API_new)
-            paras = ParaFormSet(request.POST, instance=API_new)
-            if paras.is_valid():
-                for para in paras:
-                    print(para)
-                    para.save()
             return HttpResponseRedirect('/userCenter')
         else:
             context = {
                 'form': form,
             }
     else:
-        form = APIForm(prefix='APIinfo')
-        ParaForm = ParamForm()
-        Paras = ParaFormSet(prefix='para_fs')
+        form = APIForm()
         context = {
             'form':form,
-            'Paras': Paras,
-            'ParaForm' : ParaForm,
         }
     return render_to_response('registerApi.html', context=context)
 
