@@ -159,7 +159,7 @@ def registerApi(request):
                 'form': form,
             }
     else:
-        form = APIForm()
+        form = APIForm(prefix='APIinfo')
         ParaForm = ParamForm()
         Paras = ParaFormSet(prefix='para_fs')
         context = {
@@ -180,6 +180,15 @@ def delete_api(request):
         api.delete()
         return HttpResponseRedirect('/userCenter/')
 
+
+def ConfigConsumer(username):
+    consumer = ConsumerReference(username=username)
+    consumer.save()
+    KeyAuth = KeyAuthReference(consumer=consumer)
+    KeyAuth.save()
+
+
+
 def registerConsumer(request):
     if request.method == "GET":
         print(request.GET)
@@ -191,6 +200,7 @@ def registerConsumer(request):
         d[name] = '1'
         obj = json.dumps(d)
         print(type(str(back+'('+ obj+')')))
+        ConfigConsumer()
         return HttpResponse(str(back+'('+ obj+')'))
 
 def apiHandler(request):
