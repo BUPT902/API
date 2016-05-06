@@ -21,7 +21,7 @@
         <section class="content">
             <nav id="js-aside" class="aside mt20 fl">
                 <ul class="nav-list">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <span class="nav-title">
                             基本信息
                             <i></i>
@@ -33,143 +33,187 @@
                             <i></i>
                         </span>
                     </li>
+                    <li class="nav-item active">
+                        <span class="nav-title">
+                            参数信息
+                            <i></i>
+                        </span>
+                    </li>
                 </ul>
             </nav>
             <form id="apiInfo" class="con-right mt20 fl" method="post">
-                <section class="block-cont" style="display: block">
-                    <h4>基本信息</h4>
-                    <div class="form-block">
-                        <div class="clearfix">
-                            <div>
-                                {{ form.APIcategory }}
-                                <!--<select class="mt20" id="apiCategory">-->
-                                    <!--<option value="1">平台数据提供API</option>-->
-                                    <!--<option value="2">平台数据操作API</option>-->
-                                    <!--<option value="3">平台纯功能型API</option>-->
-                                    <!--<option value="4">外部注册型API</option>-->
-                                <!--</select>-->
-                                <div id="fileDataName" class="file-name">
-                                    <label for="fileName">数据名称：</label>
-                                    <input id="fileName" type="text" placeholder="请输入文件的名称">
+                <section class="block-cont" style="display: none">
+                        <h4>基本信息</h4>
+                        <div class="form-block">
+                            <div class="clearfix">
+                                <div>
+                                    {{ form.APIcategory }}
+                                    <!--<select class="mt20" id="apiCategory">-->
+                                        <!--<option value="1">平台数据提供API</option>-->
+                                        <!--<option value="2">平台数据操作API</option>-->
+                                        <!--<option value="3">平台纯功能型API</option>-->
+                                        <!--<option value="4">外部注册型API</option>-->
+                                    <!--</select>-->
+                                    <div id="fileDataName" class="file-name">
+                                        <label for="fileName">数据名称：</label>
+                                        <input id="fileName" type="text" placeholder="请输入文件的名称">
+                                    </div>
+                                </div>
+                                <div class="form-item-des">
+                                    <span class="des-words" id="desWords">本平台数据提供型API，需要为API指定用于数据提供的数据文件名称，请填入数据名称输入栏中</span>
+                                </div>
+                                <section class="clearfix">
+                                    <div class="fl">
+                                        <div class="form-item mt15">
+                                            <label class="form-label">API动作</label>
+                                            <input id="apiAction" type="text" placeholder="请输入此API的动作名称">
+                                        </div>
+                                    </div>
+                                    <div class="ml20 fl">
+                                        <div class="form-item mt15">
+                                            <label class="form-label">API服务类型</label>
+                                            {{form.APIService_category}}
+                                            <!--<select id="apiService" class="api-service">-->
+                                                <!--<option value="1">生活服务</option>-->
+                                                <!--<option value="2">定位指南</option>-->
+                                                <!--<option value="3">医疗卫生</option>-->
+                                            <!--</select>-->
+                                        </div>
+                                    </div>
+                                </section>
+                                <div class="mt20">
+                                    <label class="form-label">API介绍
+                                         <span class="ml10 c_999 fs14">必填，描述下你的API服务</span>
+                                    </label>
+                                    {{form.APIShort_description}}
+                                    <!--<textarea class="mt15 api-long apiSimpleIntro" style="height: 60px" placeholder="简要描述下你的API吧，便于更快的检索-->
+
+    <!--示例：快递查询API，覆盖国内外100余家快递公司业务中的公司名称、快递电话、快递进度等信息。"></textarea>-->
+                                    <!--<textarea id="apiSimpleIntro" class="api-long apiSimpleIntro" placeholder="详细描述下吧，API的功能等信息-->
+
+    <!--示例：快递查询API，覆盖国内外100余家快递公司业务中的公司名称、快递电话、快递进度等信息。包含数据项为：缓存时间（当前时间与 update 之间的差值）、快递进度、快递公司英文代码、快递公司中文名、快递单号、快递电话、最后更新时间等数据项。可用于快递信息查询、快递派送路线分析及优化、快递公司效率对比与选择、快递公司经营分析与优化、快递大户搜索统计，快递物品分析及营销投放、快递效率优化、快递公司快递员KPI、快递公司电话查询、经济景气指数建立与预测等。"></textarea>-->
+                                    {{form.API_description}}
                                 </div>
                             </div>
-                            <div class="form-item-des">
-                                <span class="des-words" id="desWords">本平台数据提供型API，需要为API指定用于数据提供的数据文件名称，请填入数据名称输入栏中</span>
+                            <div class="mt20 clearfix">
+                                <a id="fir" class="btn btn-blue">下一步</a>
                             </div>
-                            <section class="clearfix">
+                        </div>
+                    </section>
+                <section class="block-cont" style="display: none">
+                        <h4>API信息</h4>
+                        <div class="form-block">
+                            <div class="clearfix">
                                 <div class="fl">
-                                    <div class="form-item mt15">
-                                        <label class="form-label">API动作</label>
-                                        <input id="apiAction" type="text" placeholder="请输入此API的动作名称">
+                                    <div class="form-item">
+                                        <label class="form-label">API名称</label>
+                                        <!--<label class="form-label">{{ form.APIChineseName.label_tag }}</label>-->
+                                        {{form.APIChineseName}}
+                                        <!--<input id="apiChineseName" type="text" placeholder="请输入API中文名称">-->
                                     </div>
                                 </div>
                                 <div class="ml20 fl">
-                                    <div class="form-item mt15">
-                                        <label class="form-label">API服务类型</label>
-                                        {{form.APIService_category}}
-                                        <!--<select id="apiService" class="api-service">-->
-                                            <!--<option value="1">生活服务</option>-->
-                                            <!--<option value="2">定位指南</option>-->
-                                            <!--<option value="3">医疗卫生</option>-->
-                                        <!--</select>-->
+                                    <div class="form-item">
+                                        <label class="form-label">API英文名称</label>
+                                        <!--<input id="apiEnglishName" type="text" placeholder="请输入API英文名称">-->
+                                        {{form.name}}
+                                    </div>
+                                </div>
+                            </div>
+                            <section class="clearfix">
+                                <div class="fl">
+                                    <div class="form-long-item">
+                                        <label class="form-label">API访问链接</label>
+                                        {{form.upstream_url}}
+                                        <!--<input id="apiUrl" type="url" placeholder="请填写不含参数的url">-->
                                     </div>
                                 </div>
                             </section>
-                            <div class="mt20">
-                                <label class="form-label">API介绍
-                                     <span class="ml10 c_999 fs14">必填，描述下你的API服务</span>
-                                </label>
-                                {{form.APIShort_description}}
-                                <!--<textarea class="mt15 api-long apiSimpleIntro" style="height: 60px" placeholder="简要描述下你的API吧，便于更快的检索-->
+                            <section class="clearfix">
+                                <div class="fl">
+                                    <div class="form-item">
+                                        <label class="form-label">每秒调用峰值</label>
+                                        {{form.APISecLimit}}
+                                        <!--<input id="rateLimitSecond" type="text" placeholder="0表示不设峰值">-->
+                                    </div>
+                                </div>
+                                <div class="ml20 fl">
+                                    <div class="form-item">
+                                        <label class="form-label">每日调用峰值</label>
+                                        <!--<input id="rateLimitDay" type="text" placeholder="该值等于每秒调用峰值*60*60*24，0表示不设置峰值">-->
+                                        {{form.APIDayLimit}}
+                                    </div>
+                                </div>
+                            </section>
+                            <div class="form-item">
+                                <label class="form-label">http请求方式</label>
+                                {% for li in form.requestType %}
+                                    {{li}}
+                                {% endfor %}
+                                <!--<input id="apiGet" class="mt15" type="radio" name="api-method" value="GET" checked="checked">-->
+                                <!--<label for="apiGet" class="ml10 mt15">GET</label>-->
+                                <!--<input id="apiPost" class="ml40 mt15" type="radio" name="api-method" value="POST">-->
+                                <!--<label for="apiPost" class="ml10 mt15">POST</label>-->
+                            </div>
 
-<!--示例：快递查询API，覆盖国内外100余家快递公司业务中的公司名称、快递电话、快递进度等信息。"></textarea>-->
-                                <!--<textarea id="apiSimpleIntro" class="api-long apiSimpleIntro" placeholder="详细描述下吧，API的功能等信息-->
 
-<!--示例：快递查询API，覆盖国内外100余家快递公司业务中的公司名称、快递电话、快递进度等信息。包含数据项为：缓存时间（当前时间与 update 之间的差值）、快递进度、快递公司英文代码、快递公司中文名、快递单号、快递电话、最后更新时间等数据项。可用于快递信息查询、快递派送路线分析及优化、快递公司效率对比与选择、快递公司经营分析与优化、快递大户搜索统计，快递物品分析及营销投放、快递效率优化、快递公司快递员KPI、快递公司电话查询、经济景气指数建立与预测等。"></textarea>-->
-                                {{form.API_description}}
+                            <div class="clearfix">
+                                <div class="form-item">
+                                    <label class="form-label">返回样例
+                                        <span class="ml20 c_999 fs12">请格式化后显示json，并在每个节点右侧进行备注</span>
+                                    </label>
+                                </div>
+                                {{form.returnSample}}
+                                <!--<textarea id="apiResExample" class="api-long" placeholder='JSON响应示例：-->
+                                <!--{-->
+                                <!--"errNum": 0,//错误码-->
+                                    <!--"errMsg": "success", //返回结果提示信息-->
+                                    <!--"retData": {-->
+                                        <!--"phonenum": "15210011578",//手机号-->
+                                        <!--"province": "北京",  //所属省份-->
+                                        <!--"carrier": "北京移动" //运营商-->
+                                    <!--}-->
+                                <!--}'></textarea>-->
+                            </div>
+
+                            <div class="clearfix">
+                                <div class="form-item">
+                                    <label class="form-label">备注
+                                        <span class="ml10 c_999">选填，可填写补充信息</span>
+                                    </label>
+                                </div>
+                                <!--<textarea id="apiRemark" class="api-long"></textarea>-->
+                                {{form.remake}}
+                            </div>
+                            <div class="mt20 clearfix">
+                                <a id="secPre" class="btn btn-blue">上一步</a>
+                                <a id="secNext" class="btn btn-blue">下一步</a>
                             </div>
                         </div>
-                        <div class="mt20 clearfix">
-                            <a id="next" class="btn btn-blue">下一步</a>
-                        </div>
-                    </div>
-                </section>
-                <section class="block-cont" style="display: none">
-                    <h4>API信息</h4>
+                    </section>
+                <section  class="block-cont" style="display: block">
+                    <h4>参数信息</h4>
                     <div class="form-block">
-                        <div class="clearfix">
-                            <div class="fl">
-                                <div class="form-item">
-                                    <label class="form-label">API名称</label>
-                                    <!--<label class="form-label">{{ form.APIChineseName.label_tag }}</label>-->
-                                    {{form.APIChineseName}}
-                                    <!--<input id="apiChineseName" type="text" placeholder="请输入API中文名称">-->
-                                </div>
-                            </div>
-                            <div class="ml20 fl">
-                                <div class="form-item">
-                                    <label class="form-label">API英文名称</label>
-                                    <!--<input id="apiEnglishName" type="text" placeholder="请输入API英文名称">-->
-                                    {{form.name}}
-                                </div>
-                            </div>
-                        </div>
-                        <section class="clearfix">
-                            <div class="fl">
-                                <div class="form-long-item">
-                                    <label class="form-label">API访问链接</label>
-                                    {{form.upstream_url}}
-                                    <!--<input id="apiUrl" type="url" placeholder="请填写不含参数的url">-->
-                                </div>
-                            </div>
-                        </section>
-                        <section class="clearfix">
-                            <div class="fl">
-                                <div class="form-item">
-                                    <label class="form-label">每秒调用峰值</label>
-                                    {{form.APISecLimit}}
-                                    <!--<input id="rateLimitSecond" type="text" placeholder="0表示不设峰值">-->
-                                </div>
-                            </div>
-                            <div class="ml20 fl">
-                                <div class="form-item">
-                                    <label class="form-label">每日调用峰值</label>
-                                    <!--<input id="rateLimitDay" type="text" placeholder="该值等于每秒调用峰值*60*60*24，0表示不设置峰值">-->
-                                    {{form.APIDayLimit}}
-                                </div>
-                            </div>
-                        </section>
-                        <div class="form-item">
-                            <label class="form-label">http请求方式</label>
-                            {% for li in form.requestType %}
-                                {{li}}
-                            {% endfor %}
-                            <!--<input id="apiGet" class="mt15" type="radio" name="api-method" value="GET" checked="checked">-->
-                            <!--<label for="apiGet" class="ml10 mt15">GET</label>-->
-                            <!--<input id="apiPost" class="ml40 mt15" type="radio" name="api-method" value="POST">-->
-                            <!--<label for="apiPost" class="ml10 mt15">POST</label>-->
-                        </div>
                         <div class="clearfix">
                             <label class="mt20 form-label">请求参数
                                 <span class="ml15 c_999">(添加urlParam)</span>
                             </label>
-
                             <section>
                                 <table id="apiParam" class="service-api-table mt15">
                                     <thead>
-                                        <tr>
-                                            <th>名称</th>
-                                            <th>类型</th>
-                                            <th>描述</th>
-                                            <th>默认值</th>
-                                            <th>是否必填</th>
-                                            <th>操作</th>
-                                        </tr>
+                                    <tr>
+                                        <th>名称</th>
+                                        <th>类型</th>
+                                        <th>描述</th>
+                                        <th>默认值</th>
+                                        <th>是否必填</th>
+                                        <th>操作</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td class="tc" colspan="6">无请求参数</td>
-                                        </tr>
+                                    <tr>
+                                        <td class="tc" colspan="6">无请求参数</td>
+                                    </tr>
                                     </tbody>
                                 </table>
                                 <a id="btnParameter" class="btn-table btn-add fr mt15">添加</a>
@@ -192,31 +236,13 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td class="tc" colspan="6">无请求参数</td>
-                                        </tr>
+                                    <tr>
+                                        <td class="tc" colspan="6">无请求参数</td>
+                                    </tr>
                                     </tbody>
                                 </table>
                                 <a id="btnHeader" class="btn-table btn-add fr mt15">添加</a>
                             </section>
-                        </div>
-                        <div class="clearfix">
-                            <div class="form-item">
-                                <label class="form-label">返回样例
-                                    <span class="ml20 c_999 fs12">请格式化后显示json，并在每个节点右侧进行备注</span>
-                                </label>
-                            </div>
-                            {{form.returnSample}}
-                            <!--<textarea id="apiResExample" class="api-long" placeholder='JSON响应示例：-->
-                            <!--{-->
-	                        <!--"errNum": 0,//错误码-->
-                                <!--"errMsg": "success", //返回结果提示信息-->
-                                <!--"retData": {-->
-                                    <!--"phonenum": "15210011578",//手机号-->
-                                    <!--"province": "北京",  //所属省份-->
-                                    <!--"carrier": "北京移动" //运营商-->
-                                <!--}-->
-                            <!--}'></textarea>-->
                         </div>
                         <div class="clearfix">
                             <label class="mt20 form-label">错误码
@@ -233,81 +259,68 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td class="tc" colspan="4">无错误码</td>
-                                        </tr>
+                                    <tr>
+                                        <td class="tc" colspan="4">无错误码</td>
+                                    </tr>
                                     </tbody>
                                 </table>
                                 <a id="errorCode" class="btn-table btn-add fr mt15">添加</a>
                             </section>
                         </div>
-                        <div class="clearfix">
-                            <div class="form-item">
-                                <label class="form-label">备注
-                                    <span class="ml10 c_999">选填，可填写补充信息</span>
-                                </label>
-                            </div>
-                            <!--<textarea id="apiRemark" class="api-long"></textarea>-->
-                            {{form.remake}}
-                        </div>
                         <div class="mt20 clearfix">
-                            <a id="pre" class="btn btn-blue">上一步</a>
+                            <a id="thr" class="btn btn-blue">上一步</a>
                         </div>
                     </div>
                 </section>
             </form>
-            <form id="ParaForm" method="post">
-                                <table class="service-api-table mt15">
-                                    <thead>
-                                    <tr>
-                                        {% for form in Paras|slice:"1" %}
-                                            {# Include the hidden fields #}
-                                            {% for hidden in form.hidden_fields %}
-                                                {{ hidden }}
-                                            {% endfor %}
-                                            {# Include the visible fields #}
-                                            {% for field in form.visible_fields %}
-                                                <th>{{ field.label }}</th>
-                                            {% endfor %}
-                                        {% endfor %}
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for form in Paras %}
-                                        <tr>
-                                            {# Include the hidden fields #}
-                                            {% for hidden in form.hidden_fields %}
-                                                {{ hidden }}
-                                            {% endfor %}
-                                            {# Include the visible fields #}
-                                            {% for field in form.visible_fields %}
-                                                <td>{{ field }}</td>
-                                            {% endfor %}
-                                            {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                                {{ Paras.management_form }}
-                            </form>
+            <!--<form id="ParaForm" method="post">-->
+                                <!--<table class="service-api-table mt15">-->
+                                    <!--<thead>-->
+                                    <!--<tr>-->
+                                        <!--{% for form in Paras|slice:"1" %}-->
+                                            <!--{# Include the hidden fields #}-->
+                                            <!--{% for hidden in form.hidden_fields %}-->
+                                                <!--{{ hidden }}-->
+                                            <!--{% endfor %}-->
+                                            <!--{# Include the visible fields #}-->
+                                            <!--{% for field in form.visible_fields %}-->
+                                                <!--<th>{{ field.label }}</th>-->
+                                            <!--{% endfor %}-->
+                                        <!--{% endfor %}-->
+                                    <!--</tr>-->
+                                    <!--</thead>-->
+                                    <!--<tbody>-->
+                                    <!--{% for form in Paras %}-->
+                                        <!--<tr>-->
+                                            <!--{# Include the hidden fields #}-->
+                                            <!--{% for hidden in form.hidden_fields %}-->
+                                                <!--{{ hidden }}-->
+                                            <!--{% endfor %}-->
+                                            <!--{# Include the visible fields #}-->
+                                            <!--{% for field in form.visible_fields %}-->
+                                                <!--<td>{{ field }}</td>-->
+                                            <!--{% endfor %}-->
+                                            <!--{% if form.instance.pk %}{{ form.DELETE }}{% endif %}-->
+                                        <!--</tr>-->
+                                    <!--{% endfor %}-->
+                                    <!--</tbody>-->
+                                <!--</table>-->
+                                <!--{{ Paras.management_form }}-->
+                            <!--</form>-->
         </section>
     </div>
     <div id="totop" style="position:fixed;bottom:150px;right:50px;cursor: pointer;">
         <a title="返回顶部"><img src="{% static 'img/scrolltoup.png' %}"/></a>
+        <!--<a title="返回顶部"><img src="../../static/img/scrolltoup.png"/></a>-->
     </div>
 <script src="{% static 'js/jquery-2.2.1.min.js' %}"></script>
 <script src="{% static 'js/registerApi.js' %}"></script>
 <script src="{% static 'js/totop.js' %}"></script>
 <script src="{% static 'js/jquery.formset.js' %}"></script>
-<script type="text/javascript">
-$(function() {
-    $('#ParaForm tbody tr').formset({
-//        prefix: '123',
-        prefix: '{{ Paras.prefix }}',
-    });
-})
-</script>
+
+
 <!--<script src="../../static/js/jquery-2.2.1.min.js"></script>-->
+<!--<script src="../../static/js/totop.js"></script>-->
 <!--<script src="../../static/js/registerApi.js"></script>-->
 </body>
 </html>

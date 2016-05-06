@@ -119,24 +119,123 @@ $(document).ready(function(){
     $("#btnHeader").bind("click",addRowHeader);
 
     //下一步按钮
-    $("#next").bind("click", function(){
+    $("#fir").bind("click", function(){                     //fir的按钮，只有下一步
         var $listTmp = $(".nav-list").find("li");
         $listTmp.eq(0).removeClass("active");
         $listTmp.eq(1).addClass("active");
+        $listTmp.eq(2).removeClass("active");
         $(".block-cont").eq(0).css("display","none");
         $(".block-cont").eq(1).css("display","block");
+        $(".block-cont").eq(2).css("display","none");
     });
-    $("#pre").bind("click", function(){
+    $("#secNext").bind("click", function(){
+        var $listTmp = $(".nav-list").find("li");
+        $listTmp.eq(0).removeClass("active");
+        $listTmp.eq(1).removeClass("active");
+        $listTmp.eq(2).addClass("active");
+        $(".block-cont").eq(1).css("display","none");
+        $(".block-cont").eq(0).css("display","none");
+        $(".block-cont").eq(2).css("display","block");
+    });
+    $("#secPre").bind("click", function () {
         var $listTmp = $(".nav-list").find("li");
         $listTmp.eq(1).removeClass("active");
+        $listTmp.eq(2).removeClass("active");
         $listTmp.eq(0).addClass("active");
         $(".block-cont").eq(1).css("display","none");
+        $(".block-cont").eq(2).css("display","none");
         $(".block-cont").eq(0).css("display","block");
     });
 
+    $("#thr").bind("click", function(){
+        var $listTmp = $(".nav-list").find("li");
+        $listTmp.eq(0).removeClass("active");
+        $listTmp.eq(2).removeClass("active");
+        $listTmp.eq(1).addClass("active");
+        $(".block-cont").eq(0).css("display","none");
+        $(".block-cont").eq(2).css("display","none");
+        $(".block-cont").eq(1).css("display","block");
+    });
+
+    function getParam(){
+        var paramTable = $("#apiParam");
+        var param = {};
+        if(paramTable.find("tbody td").length === 1){
+            alert("param表没有参数");
+        }else {
+            $("#apiParam").find("tbody tr").each(function (i, item) {
+                var item = {};
+                var $tds = $(this).find("td");
+                item.name = $tds.eq(0).find("input").val();
+                item.type = $tds.eq(1).find("select").val();
+                item.description = $tds.eq(2).find("input").val();
+                item.defaultValue = $tds.eq(3).find("input").val();
+                item.nessesary = $tds.eq(4).find("select").val();
+                param["param"+i] = item;
+            });
+        }
+        return param;
+    }
+
+    function getHeader(){
+        var headerTable = $("#apiHeader");
+        var header = {};
+        if(headerTable.find("tbody td").length === 1){
+            alert("header表没有参数");
+        }else {
+            $("#apiHeader").find("tbody tr").each(function (i, item) {
+                var item = {};
+                var $tds = $(this).find("td");
+                item.name = $tds.eq(0).find("input").val();
+                item.type = $tds.eq(1).find("select").val();
+                item.description = $tds.eq(2).find("input").val();
+                item.defaultValue = $tds.eq(3).find("input").val();
+                item.nessesary = $tds.eq(4).find("select").val();
+                header["header"+i] = item;
+            });
+        }
+        return header;
+    }
+
+    function getErrorCode(){
+        var errorTable = $("#apiErrorCode");
+        var errorCode = {};
+        if(errorTable.find("tbody td").length === 1){
+            alert("错误表没有参数");
+        }else {
+            $("#apiErrorCode").find("tbody tr").each(function (i, item) {
+                var item = {};
+                var $tds = $(this).find("td");
+                item.name = $tds.eq(0).find("input").val();
+                item.message = $tds.eq(2).find("input").val();
+                item.description = $tds.eq(3).find("input").val();
+                errorCode["errorCode"+i] = item;
+            });
+        }
+        return errorCode;
+    }
+
+    function getTotalData(){
+        var data = {};
+        data.param = getParam();
+        data.header = getHeader();
+        data.errorCode = getErrorCode();
+        return JSON.stringify(data);
+    }
+
     $("#uploadApi").bind("click", function(){
-        alert("提交");
         $("#apiInfo").submit();
+        var result = getTotalData();
+        $.ajax({
+            type:"POST",
+            url:"/delete_api/",
+            data: {
+                parameter: result
+            },
+            success:function(response){
+                console.log(response);
+            }
+        });
     });
 
     //=============================API列表的导航==========================//
