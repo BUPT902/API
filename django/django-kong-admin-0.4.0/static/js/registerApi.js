@@ -224,18 +224,14 @@ $(document).ready(function(){
     }
 
     $("#uploadApi").bind("click", function(){
-        $("#apiInfo").submit();
         var result = getTotalData();
-        $.ajax({
-            type:"POST",
-            url:"/delete_api/",
-            data: {
-                parameter: result
-            },
-            success:function(response){
-                console.log(response);
-            }
+        $("#apiInfo").submit(function(){
+            $('<input />').attr('type', 'hidden')
+                .attr('name', 'parameter')
+                .attr('value', result)
+                .appendTo('#apiInfo');
         });
+        return true;
     });
 
     //=============================API列表的导航==========================//
