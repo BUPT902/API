@@ -9,6 +9,8 @@ from kong_admin.views import synchronize_api_reference, synchronize_api_referenc
 import json
 from django import forms
 from django.forms import formset_factory, inlineformset_factory
+from django.utils.translation import ugettext_lazy as _
+
 
 # Create your views here.
 def index(request):
@@ -136,18 +138,20 @@ def ConfigPlugin(API):
 
 
 def ConfigPara(API, parameter):
-    json_dict =  json.loads(parameter)
+    json_dict = json.loads(parameter)
     errorCode  = json_dict['errorCode']
     header  =  json_dict['header']
     param = json_dict['param']
-    for i in  errorCode:
-        error = ErrorReference(api=API, code=i['message'], message=i['name'], description=i['description'])
+    for i in errorCode:
+        error = ErrorReference(api=API, code=_(errorCode[i]['message']), message=_(errorCode[i]['name']), description=_(errorCode[i]['description']))
         error.save()
     for i in header:
-        head = HeaderReference(api=API, name=i['name'], type=i['type'], defaultValue=i['defaultValue'], description=i['description'], nessesary=i['nessesary'])
+        head = HeaderReference(api=API, name=header[i]['name'], type=header[i]['type'], defaultValue=header[i]['defaultValue'], \
+                               description=header[i]['description'], nessesary=header[i]['nessesary'])
         head.save()
-    for i in Param:
-        para = ParameterReference(api=API, name=i['name'], type=i['type'], defaultValue=i['defaultValue'], description=i['description'], nessesary=i['nessesary'])
+    for i in param:
+        para = ParameterReference(api=API, name=param[i]['name'], type=param[i]['type'], defaultValue=param[i]['defaultValue'], \
+                                  description=param[i]['description'], nessesary=param[i]['nessesary'])
         para.save()
     print(dict)
 
