@@ -4,48 +4,59 @@
 <head>
     <meta charset="UTF-8">
     <title>API详情</title>
-    <link rel="stylesheet" href="{% static 'css/apiregister.css' %}">
-    <link rel="stylesheet" href="{% static 'css/iconFonts.css' %}">
+    <!--<link rel="stylesheet" href="{% static 'css/apiregister.css' %}">-->
+    <!--<link rel="stylesheet" href="{% static 'css/iconFonts.css' %}">-->
+    <link rel="stylesheet" href="../../static/css/apiregister.css">
+    <link rel="stylesheet" href="../../static/css/iconFonts.css">
 </head>
 <body>
     <div id="header"></div>
     <div class="wrap">
-        <div class="api-detail-des mt20">
+        <div class="api-detail-des mt20 clearfix">
             <div class="page_title clearfix">
                 <h5 class="title-name">{{api.APIChineseName}}</h5>
             </div>
-            <div class="nav-path">
+            <div class="api-detail-img fl mt40">
+                <img src="../../static/img/weather.jpg" class="api-img">
+                <div class="api-short-des">
+                    <span class="api-short-des-intro">免 费</span>
+                </div>
+            </div>
+            <div class="api-detail-content fl ml20 mt40">
+                <div class="nav-path">
 
-            </div>
-            <div class="record-info mt40 clearfix">
-                <div class="fl">
-                    <span class="record-key">所属人：</span>
-                    <span class="record-value">{{api.owner}}</span>
                 </div>
-            </div>
-            <div class="record-info clearfix">
-                <div class="fl">
-                    <span class="record-key">所属服务分类：</span>
-                    <span class="record-value">{{api.get_APIService_category_display}}</span>
+                <div class="record-info clearfix">
+                    <div class="fl">
+                        <span class="record-key">所属人：</span>
+                        <span class="record-value">{{api.owner}}</span>
+                    </div>
                 </div>
-            </div>
-            <!-- 若已登录，则出现遮罩效果，显示apikey，若还未登录，则跳转到用户登录界面-->
-            <div class="record-info clearfix">
-                <div class="fl">
-                    <span class="record-key">apikey：</span>
+                <div class="record-info clearfix">
+                    <div class="fl">
+                        <span class="record-key">所属服务分类：</span>
+                        <span class="record-value">{{api.get_APIService_category_display}}</span>
+                    </div>
+                </div>
+                <!-- 若已登录，则出现遮罩效果，显示apikey，若还未登录，则跳转到用户登录界面-->
+                <div class="record-info clearfix">
+                    <div class="fl">
+                        <span class="record-key">apikey：</span>
                     <span class="record-value">
                         <a class="get-apikey">获取apikey</a>
                     </span>
+                    </div>
+                </div>
+                <div class="record-info clearfix">
+                    <div class="fl">
+                        <span class="record-key">服务简介：</span>
+                        <span class="record-value intro">{{api.APIService_description}}</span>
+                    </div>
                 </div>
             </div>
-            <div class="record-info clearfix">
-                <div class="fl">
-                    <span class="record-key">服务简介：</span>
-                    <span class="record-value intro">{{api.APIService_description}}</span>
-                </div>
-            </div>
+
         </div>
-        <div class="api-service-tab">
+        <div class="api-service-tab mt20">
             <div class="tab-control">
                 <ul class="tabs">
                     <li class="active"><a href="#"><i class="icon-info-2"></i> &nbsp;API介绍</a></li>
@@ -220,7 +231,9 @@
             </div>
         </div>
     </div>
-<script src="{% static 'js/jquery-2.2.1.min.js' %}"></script>
-<script src="{% static 'js/registerApi.js' %}"></script>
+<!--<script src="{% static 'js/jquery-2.2.1.min.js' %}"></script>-->
+<!--<script src="{% static 'js/registerApi.js' %}"></script>-->
+    <script src="../../static/js/jquery-2.2.1.min.js"></script>
+    <script src="../../static/js/registerApi.js"></script>
 </body>
 </html>

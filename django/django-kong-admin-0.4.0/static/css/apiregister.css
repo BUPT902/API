@@ -506,9 +506,37 @@ input[type=text].api-long, textarea.api-long {
 }
 
 /*==================================================APIÏêÏ¸Ò³=============================================*/
+.api-detail-img{
+    position: relative;
+    width: 250px;
+    height: 200px;
+    border: 1px solid #E9F2F6;
+}
+.api-img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -100px;
+    margin-top: -75px;
+}
+.api-short-des {
+    position: absolute;
+    bottom: 0;
+    height: 45px;
+    width: 250px;
+    border-top: 1px dashed #E9F2F6;
+    background-color: #F6F6F6;
+}
+.api-short-des-intro{
+    display: inline-block;
+    float: right;
+    line-height: 45px;
+    margin-right: 30px;
+}
+
 .record-info {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    /*padding-top: 10px;*/
+    padding-bottom: 20px;
 }
 .record-key {
     color: #999;
