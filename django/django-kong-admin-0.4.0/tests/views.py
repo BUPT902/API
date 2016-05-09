@@ -161,7 +161,7 @@ def registerApi(request):
         info = request.POST.copy()
         parameter = info['parameter']
         del info['parameter']
-        form = APIForm(info)
+        form = APIForm(info, request.FILES)
         if form.is_valid():
             username = request.COOKIES.get('username', '')
             API_new = form.save(commit=False)

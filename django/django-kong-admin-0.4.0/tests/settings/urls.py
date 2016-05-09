@@ -2,6 +2,8 @@
 from __future__ import unicode_literals, print_function
 from django.conf.urls import include, url
 from django.contrib import admin
+import os
+BASE_DIR2 = os.path.dirname(os.path.dirname(__file__))
 
 
 urlpatterns = [
@@ -17,5 +19,6 @@ urlpatterns = [
     url(r'^registerApi/', 'tests.views.registerApi'),
     url(r'^delete_api/', 'tests.views.delete_api'),
     url(r'^apiHandler/', 'tests.views.apiHandler'),
-    url(r'^registerConsumer$', 'tests.views.registerConsumer')
+    url(r'^registerConsumer$', 'tests.views.registerConsumer'),
+    url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.join(BASE_DIR2,'media'), 'show_indexes': True }),
 ]

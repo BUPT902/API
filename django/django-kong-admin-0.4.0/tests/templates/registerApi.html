@@ -41,13 +41,15 @@
                     </li>
                 </ul>
             </nav>
-            <form id="apiInfo" class="con-right mt20 fl" method="post">
+            <form id="apiInfo" class="con-right mt20 fl" method="post" enctype="multipart/form-data">
                 <section class="block-cont" style="display: none">
                         <h4>基本信息</h4>
                         <div class="form-block">
                             <div class="clearfix">
                                 <div>
                                     {{ form.APIcategory }}
+                                    {{form.APIcategory.errors}}
+
                                     <!--<select class="mt20" id="apiCategory">-->
                                         <!--<option value="1">平台数据提供API</option>-->
                                         <!--<option value="2">平台数据操作API</option>-->
@@ -73,6 +75,8 @@
                                         <div class="form-item mt15">
                                             <label class="form-label">API服务类型</label>
                                             {{form.APIService_category}}
+                                            {{form.APIService_category.errors}}
+
                                             <!--<select id="apiService" class="api-service">-->
                                                 <!--<option value="1">生活服务</option>-->
                                                 <!--<option value="2">定位指南</option>-->
@@ -86,6 +90,8 @@
                                          <span class="ml10 c_999 fs14">必填，描述下你的API服务</span>
                                     </label>
                                     {{form.APIShort_description}}
+                                    {{form.APIShort_description.errors}}
+
                                     <!--<textarea class="mt15 api-long apiSimpleIntro" style="height: 60px" placeholder="简要描述下你的API吧，便于更快的检索-->
 
     <!--示例：快递查询API，覆盖国内外100余家快递公司业务中的公司名称、快递电话、快递进度等信息。"></textarea>-->
@@ -93,6 +99,12 @@
 
     <!--示例：快递查询API，覆盖国内外100余家快递公司业务中的公司名称、快递电话、快递进度等信息。包含数据项为：缓存时间（当前时间与 update 之间的差值）、快递进度、快递公司英文代码、快递公司中文名、快递单号、快递电话、最后更新时间等数据项。可用于快递信息查询、快递派送路线分析及优化、快递公司效率对比与选择、快递公司经营分析与优化、快递大户搜索统计，快递物品分析及营销投放、快递效率优化、快递公司快递员KPI、快递公司电话查询、经济景气指数建立与预测等。"></textarea>-->
                                     {{form.API_description}}
+                                    {{form.API_description.errors}}
+
+
+                                    {{form.logo}}
+                                    {{form.logo.errors}}
+
                                 </div>
                             </div>
                             <div class="mt20 clearfix">
@@ -109,6 +121,8 @@
                                         <label class="form-label">API名称</label>
                                         <!--<label class="form-label">{{ form.APIChineseName.label_tag }}</label>-->
                                         {{form.APIChineseName}}
+                                        {{form.APIChineseName.errors}}
+
                                         <!--<input id="apiChineseName" type="text" placeholder="请输入API中文名称">-->
                                     </div>
                                 </div>
@@ -117,6 +131,8 @@
                                         <label class="form-label">API英文名称</label>
                                         <!--<input id="apiEnglishName" type="text" placeholder="请输入API英文名称">-->
                                         {{form.name}}
+                                        {{form.name.errors}}
+
                                     </div>
                                 </div>
                             </div>
@@ -125,6 +141,8 @@
                                     <div class="form-long-item">
                                         <label class="form-label">API访问链接</label>
                                         {{form.upstream_url}}
+                                        {{form.upstream_url.errors}}
+
                                         <!--<input id="apiUrl" type="url" placeholder="请填写不含参数的url">-->
                                     </div>
                                 </div>
@@ -134,6 +152,8 @@
                                     <div class="form-item">
                                         <label class="form-label">每秒调用峰值</label>
                                         {{form.APISecLimit}}
+                                        {{form.APISecLimit.errors}}
+
                                         <!--<input id="rateLimitSecond" type="text" placeholder="0表示不设峰值">-->
                                     </div>
                                 </div>
@@ -142,6 +162,8 @@
                                         <label class="form-label">每日调用峰值</label>
                                         <!--<input id="rateLimitDay" type="text" placeholder="该值等于每秒调用峰值*60*60*24，0表示不设置峰值">-->
                                         {{form.APIDayLimit}}
+                                        {{form.APIDayLimit.errors}}
+
                                     </div>
                                 </div>
                             </section>
@@ -150,6 +172,8 @@
                                 {% for li in form.requestType %}
                                     {{li}}
                                 {% endfor %}
+                                {{form.requestType.errors}}
+
                                 <!--<input id="apiGet" class="mt15" type="radio" name="api-method" value="GET" checked="checked">-->
                                 <!--<label for="apiGet" class="ml10 mt15">GET</label>-->
                                 <!--<input id="apiPost" class="ml40 mt15" type="radio" name="api-method" value="POST">-->
