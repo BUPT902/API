@@ -185,6 +185,51 @@ def registerApi(request):
     return render_to_response('registerApi.html', context=context)
 
 
+def modifyApi(request, param1):
+    print(param1)
+    api = APIReference.objects.get(name=param1)
+    json_dict = {}
+    error_dict = {}
+    for i,  error in enumerate(ErrorReference.objects.filter(api=api).values()):
+        error_dict['err'+str(i)] = error
+    json_dict['error'] = error_dict
+    param_dict = {}
+    for i, param in enumerate(ParameterReference.objects.filter(api=api).values()):
+        param_dict['param' + str(i)] = param
+    json_dict['param'] = param_dict
+    head_dict = {}
+    for i, head in enumerate(HeaderReference.objects.filter(api=api).values()):
+        head_dict['head' + str(i)] = head
+    json_dict['head'] = param_dict
+    # print(json_dict)
+    print(json.dumps(json_dict))
+    if request.method == "POST":
+        info = request.POST.copy()
+        parameter = info['parameter']
+        del info['parameter']
+        form = APIForm(info, request.FILES)
+        if form.is_valid():
+            username = request.COOKIES.get('username', '')
+            API_new = form.save(commit=False)
+            API_new.request_path = '/' + API_new.name
+            API_new.strip_request_path = True
+            API_new.owner = ConsumerReference.objects.get(username=username)
+            API_new.save()
+            ConfigPara(API_new, parameter)
+            ConfigPlugin(API_new)
+            return HttpResponseRedirect('/userCenter')
+        else:
+            context = {
+                'form': form,
+            }
+    else:
+        form = APIForm(instance=api)
+        context = {
+            'form': form,
+        }
+    return render_to_response('registerApi.html', context=context)
+
+
 
 def delete_api(request):
     if request.method == "POST":
@@ -201,7 +246,6 @@ def ConfigConsumer(username):
     consumer.save()
     KeyAuth = KeyAuthReference(consumer=consumer)
     KeyAuth.save()
-
 
 
 def registerConsumer(request):

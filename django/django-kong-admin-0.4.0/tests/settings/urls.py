@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^apiHeader/', 'tests.views.apiHeader'),
     url(r'^userCenter/', 'tests.views.userCenter'),
     url(r'^registerApi/', 'tests.views.registerApi'),
+    url(r'^modifyApi/(.+)/$', 'tests.views.modifyApi'),
     url(r'^delete_api/', 'tests.views.delete_api'),
     url(r'^apiHandler/', 'tests.views.apiHandler'),
     url(r'^registerConsumer$', 'tests.views.registerConsumer'),
