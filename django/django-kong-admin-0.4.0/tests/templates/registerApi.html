@@ -91,10 +91,13 @@
                                             <label class="form-label">LOGO
                                                 <span class="ml10 c_999 fs14">图片规格为200*100</span>
                                             </label>
+
                                             <input id="uploadFile" class="upload-file" type="text" placeholder="选择 API 的 logo 图片" disabled="disabled" />
                                             <div class="fileUpload btn btn-upload">
                                                 <span>上传logo</span>
-                                                <input id="uploadBtn" type="file" class="upload" />
+                                                {{form.logo}}
+                                                {{form.logo.errors}}
+                                                <!--<input id="uploadBtn" type="file" class="upload" />-->
                                             </div>
                                         </div>
                                     </div>
@@ -115,9 +118,6 @@
                                     {{form.API_description}}
                                     {{form.API_description.errors}}
 
-
-                                    {{form.logo}}
-                                    {{form.logo.errors}}
 
                                 </div>
                             </div>

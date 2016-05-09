@@ -126,7 +126,8 @@ class APIForm(forms.ModelForm):
                                                                 }
                                                             }"""
                                                    }),
-            'remake' : forms.Textarea(attrs={'class':'api-long'})
+            'remake' : forms.Textarea(attrs={'class':'api-long'}),
+            'logo' : forms.FileInput(attrs={'id':'uploadBtn', 'type':'file', 'class':'upload'})
 
         }
 
