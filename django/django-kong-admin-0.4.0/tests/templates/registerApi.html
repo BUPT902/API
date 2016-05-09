@@ -21,7 +21,7 @@
         <section class="content">
             <nav id="js-aside" class="aside mt20 fl">
                 <ul class="nav-list">
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <span class="nav-title">
                             基本信息
                             <i></i>
@@ -33,7 +33,7 @@
                             <i></i>
                         </span>
                     </li>
-                    <li class="nav-item active">
+                    <li id="editApiItem" class="nav-item">
                         <span class="nav-title">
                             参数信息
                             <i></i>
@@ -42,7 +42,7 @@
                 </ul>
             </nav>
             <form id="apiInfo" class="con-right mt20 fl" method="post" enctype="multipart/form-data">
-                <section class="block-cont" style="display: none">
+                <section class="block-cont" style="display: block">
                         <h4>基本信息</h4>
                         <div class="form-block">
                             <div class="clearfix">
@@ -229,7 +229,7 @@
                             </div>
                         </div>
                     </section>
-                <section  class="block-cont" style="display: block">
+                <section  class="block-cont" style="display: none">
                     <h4>参数信息</h4>
                     <div class="form-block">
                         <div class="clearfix">
@@ -356,6 +356,7 @@
 <script src="{% static 'js/totop.js' %}"></script>
 <script src="{% static 'js/jquery.formset.js' %}"></script>
 <script src="{% static 'js/localStorage.js' %}"></script>
+<script src="{% static 'js/editAPI.js' %}"></script>
 <script>
     $("#apiInfo").formLocalStorage();
 </script>

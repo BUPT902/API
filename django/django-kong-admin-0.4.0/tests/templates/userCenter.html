@@ -39,39 +39,53 @@
                                 <th>操作</th>
                             </tr>
                         </thead>
-                        <tbody>
-                        {% for api in my_apis%}
-                            <tr>
-                                <td>{{api.name}}</td>
-                                <td>{{api.APIChineseName}}</td>
-                                <td>{{api.get_APIcategory_display}}</td>
-                                <td>{{api.get_APIService_category_display}}</td>
-                                <td>{{api.created_at | date:"Y-m-d"}}</td>
-                                <td>
-                                    <a class="btn-table btn-blue" href="#">策略</a>
-                                    <a class="btn-table btn-edit" href="#">修改</a>
-                                    <a class="btn-table btn-delete" href="javascript:void(0);">删除</a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
                         <!--<tbody>-->
+                        <!--{% for api in my_apis%}-->
                             <!--<tr>-->
-                                <!--<td>weather</td>-->
-                                <!--<td>天气查询</td>-->
-                                <!--<td>外部注册</td>-->
-                                <!--<td>生活服务</td>-->
-                                <!--<td>2016-05-03</td>-->
+                                <!--<td>{{api.name}}</td>-->
+                                <!--<td>{{api.APIChineseName}}</td>-->
+                                <!--<td>{{api.get_APIcategory_display}}</td>-->
+                                <!--<td>{{api.get_APIService_category_display}}</td>-->
+                                <!--<td>{{api.created_at | date:"Y-m-d"}}</td>-->
                                 <!--<td>-->
                                     <!--<a class="btn-table btn-blue" href="#">策略</a>-->
                                     <!--<a class="btn-table btn-edit" href="#">修改</a>-->
-                                    <!--<a class="btn-table btn-delete" href="#">删除</a>-->
-                                    <!--&lt;!&ndash;<form action="/delete_api/" method="post">&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<input type="submit" class="btn-table btn-delete" value="删除" name="due_date" />&ndash;&gt;-->
+                                    <!--<a class="btn-table btn-delete" href="javascript:void(0);">删除</a>-->
                                 <!--</td>-->
                             <!--</tr>-->
-                            <!-- -->
+                        <!--{% endfor %}-->
                         <!--</tbody>-->
+                        <tbody>
+                            <tr>
+                                <td>weather</td>
+                                <td>天气查询</td>
+                                <td>外部注册</td>
+                                <td>生活服务</td>
+                                <td>2016-05-03</td>
+                                <td>
+                                    <a class="btn-table btn-blue" href="#">策略</a>
+                                    <a class="btn-table btn-edit" href="registerApi.html">修改</a>
+                                    <a class="btn-table btn-delete" href="#">删除</a>
+                                    <!--<form action="/delete_api/" method="post">-->
+                                        <!--<input type="submit" class="btn-table btn-delete" value="删除" name="due_date" />-->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ip</td>
+                                <td>IP查询</td>
+                                <td>外部注册</td>
+                                <td>生活服务</td>
+                                <td>2016-05-03</td>
+                                <td>
+                                    <a class="btn-table btn-blue" href="#">策略</a>
+                                    <a class="btn-table btn-edit" href="#">修改</a>
+                                    <a class="btn-table btn-delete" href="#">删除</a>
+                                    <!--<form action="/delete_api/" method="post">-->
+                                    <!--<input type="submit" class="btn-table btn-delete" value="删除" name="due_date" />-->
+                                </td>
+                            </tr>
+
+                        </tbody>
                     </table>
                 </div>
             </div>
