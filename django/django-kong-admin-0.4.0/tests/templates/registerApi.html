@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>注册API</title>
-    <link rel="stylesheet" href="{% static 'css/apiregister.css' %}">
-    <!--<link rel="stylesheet" href="../../static/css/apiregister.css">-->
+    <!--<link rel="stylesheet" href="{% static 'css/apiregister.css' %}">-->
+    <link rel="stylesheet" href="../../static/css/apiregister.css">
 </head>
 
 <body>
@@ -29,7 +29,7 @@
                     </li>
                     <li class="nav-item">
                         <span class="nav-title">
-                            API信息
+                             API&nbsp;信息
                             <i></i>
                         </span>
                     </li>
@@ -46,7 +46,7 @@
                         <h4>基本信息</h4>
                         <div class="form-block">
                             <div class="clearfix">
-                                <div>
+                                <div style="margin-top: 20px">
                                     {{ form.APIcategory }}
                                     {{form.APIcategory.errors}}
 
@@ -82,6 +82,20 @@
                                                 <!--<option value="2">定位指南</option>-->
                                                 <!--<option value="3">医疗卫生</option>-->
                                             <!--</select>-->
+                                        </div>
+                                    </div>
+                                </section>
+                                <section class="clearfix">
+                                    <div class="fl">
+                                        <div class="mt15">
+                                            <label class="form-label">LOGO
+                                                <span class="ml10 c_999 fs14">图片规格为200*100</span>
+                                            </label>
+                                            <input id="uploadFile" class="upload-file" type="text" placeholder="选择 API 的 logo 图片" disabled="disabled" />
+                                            <div class="fileUpload btn btn-upload">
+                                                <span>上传logo</span>
+                                                <input id="uploadBtn" type="file" class="upload" />
+                                            </div>
                                         </div>
                                     </div>
                                 </section>
@@ -219,7 +233,7 @@
                     <h4>参数信息</h4>
                     <div class="form-block">
                         <div class="clearfix">
-                            <label class="mt20 form-label">请求参数
+                            <label class="form-label">请求参数
                                 <span class="ml15 c_999">(添加urlParam)</span>
                             </label>
                             <section>
@@ -337,16 +351,16 @@
         <a title="返回顶部"><img src="{% static 'img/scrolltoup.png' %}"/></a>
         <!--<a title="返回顶部"><img src="../../static/img/scrolltoup.png"/></a>-->
     </div>
-<script src="{% static 'js/jquery-2.2.1.min.js' %}"></script>
-<script src="{% static 'js/registerApi.js' %}"></script>
-<script src="{% static 'js/totop.js' %}"></script>
-<script src="{% static 'js/jquery.formset.js' %}"></script>
-<script src="{% static 'js/localStorage.js' %}"></script>
-<script>
-    $("#apiInfo").formLocalStorage();
-</script>
-<!--<script src="../../static/js/jquery-2.2.1.min.js"></script>-->
-<!--<script src="../../static/js/totop.js"></script>-->
-<!--<script src="../../static/js/registerApi.js"></script>-->
+<!--<script src="{% static 'js/jquery-2.2.1.min.js' %}"></script>-->
+<!--<script src="{% static 'js/registerApi.js' %}"></script>-->
+<!--<script src="{% static 'js/totop.js' %}"></script>-->
+<!--<script src="{% static 'js/jquery.formset.js' %}"></script>-->
+<!--<script src="{% static 'js/localStorage.js' %}"></script>-->
+<!--<script>-->
+    <!--$("#apiInfo").formLocalStorage();-->
+<!--</script>-->
+<script src="../../static/js/jquery-2.2.1.min.js"></script>
+<script src="../../static/js/totop.js"></script>
+<script src="../../static/js/registerApi.js"></script>
 </body>
 </html>

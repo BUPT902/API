@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>API列表</title>
-    <link rel="stylesheet" href="{% static 'css/apiregister.css' %}">
+    <!--<link rel="stylesheet" href="{% static 'css/apiregister.css' %}">-->
+    <link rel="stylesheet" href="../../static/css/apiregister.css">
 </head>
 <body>
     <div id="header"></div>
@@ -31,44 +32,50 @@
                 </li>
             </ul>
         </nav>
-        <div id="apiListShow" class="api-list-show ml10 fl clearfix">
-            {% for api in api_list %}
-            <div class="api-list-item fl ml10 mb15">{{ api.APIChineseName }}
+        <div id="apiListShow" class="api-list-show fl clearfix">
+            <!--{% for api in api_list %}-->
+            <!--<div class="api-list-item fl ml10 mb15">{{ api.APIChineseName }}-->
+                <!--<div class="text-desc">-->
+                    <!--<div>-->
+                        <!--<span class="fs12" style="display: block">{{ api.APIShort_description }}</span>-->
+                        <!--<a href="/apiDetail/{{api.name}}" class="btn-list btn-blue">详细信息</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--{% endfor %}-->
+            <div class="api-list-item fl ml10 mb15">
+                <img src="../../static/img/ip.jpg" class="api-item-img">
+                <div class="api-item-title">IP定位</div>
+                <div class="text-desc">
+                    <span class="fs14 api-item-des" style="display: block">API是一个根据IP返回对应位置信息</span>
+                    <a href="#" class="btn-list btn-blue api-item-btn">详细信息</a>
+                </div>
+            </div>
+
+            <div class="api-list-item fl ml10 mb15">
+                <img src="../../static/img/phone.jpg" class="api-item-img">
+                <div class="api-item-title">手机归属地查询</div>
                 <div class="text-desc">
                     <div>
-                        <span class="fs12" style="display: block">{{ api.APIShort_description }}</span>
-                        <a href="/apiDetail/{{api.name}}" class="btn-list btn-blue">详细信息</a>
+                        <span class="fs14 api-item-des" style="display: block">根据手机号查询归属地</span>
+                        <a href="#" class="btn-list btn-blue api-item-btn">详细信息</a>
                     </div>
                 </div>
             </div>
-            {% endfor %}
-            <!--<div class="api-list-item fl ml10 mb15">IP定位-->
-                <!--<div class="text-desc">-->
-                    <!--<div>-->
-                        <!--<span class="fs12" style="display: block">API是一个根据IP返回对应位置信息</span>-->
-                        <!--<a href="#" class="btn-list btn-blue">详细信息</a>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="api-list-item fl ml10 mb15">手机归属地查询-->
-                <!--<div class="text-desc">-->
-                    <!--<div>-->
-                        <!--<span class="fs12" style="display: block">根据手机号查询归属地</span>-->
-                        <!--<a href="#" class="btn-list btn-blue">详细信息</a>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="api-list-item fl ml10 mb15">手机归属地查询-->
-                <!--<div class="text-desc">-->
-                    <!--<div>-->
-                        <!--<span class="fs12" style="display: block">根据手机号查询归属地</span>-->
-                        <!--<a href="#" class="btn-list btn-blue">详细信息</a>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
+            <div class="api-list-item fl ml10 mb15">
+                <img src="../../static/img/weather.jpg" class="api-item-img">
+                <div class="api-item-title">天气查询</div>
+                <div class="text-desc">
+                    <div>
+                        <span class="fs14 api-item-des" style="display: block">全国天气预报查询（含港澳台）</span>
+                        <a href="#" class="btn-list btn-blue api-item-btn">详细信息</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <script src="{% static 'js/jquery-2.2.1.min.js' %}"></script>
+    <!--<script src="{% static 'js/jquery-2.2.1.min.js' %}"></script>-->
+    <script src="../../static/js/jquery-2.2.1.min.js"></script>
 <script>
     $("#header").load("/apiHeader");
 //    $(".aside-item").bind("click",function(){

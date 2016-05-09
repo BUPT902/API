@@ -132,8 +132,22 @@ a{
 }
 .btn-blue {
     background-color: #35a6e8;
+    border: 1px solid #35a6e8;
     color: #fff;
 }
+
+.btn-upload {
+    background-color: #6699CC;
+    border: 1px solid #6699CC;
+    color: #fff;
+    padding: 10px 29px;
+}
+
+.btn-upload:hover{
+    background-color: #fff;
+    color: #6699CC;
+}
+
 .btn-white {
     border: 1px solid #35a6e8;
     background-color: #fff;
@@ -208,11 +222,11 @@ a{
     width: 100%;
     padding-top: 20px;
 }
-.form-item input[type=text], .form-item input[type=number] ,.form-block textarea {
+.form-item input[type=text], .form-item input[type=number],.form-block textarea {
     width: 352px;
     margin-top: 10px;
 }
-.form-item input[type=number] {
+.form-item input[type=number]{
     height: 40px;
     padding: 0 10px;
 }
@@ -264,6 +278,7 @@ input[type=text].data-param-default {
     padding: 3px 10px;
     border-radius: 3px;
     color: #fff;
+    font-size: 12px;
     cursor: pointer;
 }
 .btn-delete {
@@ -306,6 +321,27 @@ input[type=text].api-long, textarea.api-long {
     width: 740px !important;
     height: 150px ;
     padding: 10px 10px;
+}
+.form-block .upload-file {
+    margin: 0 1px;
+    width: 352px;
+}
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+
+.fileUpload input.upload {  position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
 }
 
 /*=====================================分割线，用户中心================================*/
@@ -405,33 +441,56 @@ input[type=text].api-long, textarea.api-long {
 }
 
 .api-list-show {
-    width: 840px;
+    width: 850px;
     min-height: 500px;
     background-color: #fff;
 }
 .api-list-item {
     position: relative;
-    display: flex;
-    width: 260px;
-    height: 100px;
+    width: 200px;
+    height: 130px;
     border: 1px solid #EAEAEA;
     color: #000;
     overflow: hidden;
-    justify-content: center;
-    align-items: center;
+}
+.api-item-img{
+    border-bottom: 1px dashed #EAEAEA;
+}
+.api-item-title {
+    display: inline-block;
+    position: absolute;
+    line-height: 30px;
+    width: 200px;
+    text-align: center;
+    color: #666;
+    bottom: 0;
+    left: 0;
+
 }
 .text-desc{
     position: absolute;
-    display: flex;
     background-color: #fff;
-    width: 260px;
-    height: 100px;
-    top: -100px;
+    width: 200px;
+    height: 130px;
+    top: -130px;
     left: 0;
-    text-align: center;
     transition: 0.3s;
-    justify-content: center;
-    align-items: center;
+}
+.api-item-des {
+    position: absolute;
+    width: 180px;
+    top: 20px;
+   text-align: center;
+    left: 50%;
+    transform: translate(-50%);
+    -webkit-transform: translate(-50%);
+}
+.api-item-btn{
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%);
+    -webkit-transform: translate(-50%);
 }
 .api-list-item:hover .text-desc{
     top: 0;

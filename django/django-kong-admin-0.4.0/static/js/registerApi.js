@@ -34,6 +34,11 @@ $(document).ready(function(){
         }
     });
 
+    //上传文件按钮
+    $("#uploadBtn").bind("change", function(){
+        $("#uploadFile").val($(this).val());
+    });
+
     //对parameter的table添加事件  //删除按钮
     $("#apiParam").bind("click",function(event){
         var node = event.target;
