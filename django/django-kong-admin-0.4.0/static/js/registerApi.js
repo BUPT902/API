@@ -283,21 +283,6 @@ $(document).ready(function(){
         $("#jquery-msg-overlay").hide();
     });
 
-    function editRowHeader(name, type, description, defaultValue, nessesary){
-        var $tbodyTmp = $("#apiHeader").find("tbody");
-        var length = $tbodyTmp.find("td").length;
-        var str = '<tr> <td> <input type="text" class="data-param-name" value='+name+'> </td> ' +
-            '<td> <div class="select-fath data-param-type"> <select> <option value="string">string</option> <option value="number">number</option> <option value="boolean">boolean</option> </select> </div> ' +
-            '</td> <td> <input type="text" class="data-param-desc" placeholder="填真实数据"> </td> ' +
-            '<td> <input type="text" class="data-param-default" placeholder="填合法默认值"> </td> ' +
-            '<td> <div class="select-path data-param-has-a"> <select> <option value="1">是</option> <option value="0">否</option> </select> </div> </td> ' +
-            '<td> <a class="btn-table btn-delete">删除</a> </td> </tr>';
-        if(length === 1){
-            $tbodyTmp.find("tr").remove();
-        }
-        $tbodyTmp.append(str);
-    }
-
     $("#api-table").bind("click",function(event){
         var node = event.target;
         if(node.className.indexOf("delete") !== -1){
