@@ -228,17 +228,25 @@ $(document).ready(function(){
         return JSON.stringify(data);
     }
 
+    function showResponse(){
+        alert("OK");
+    }
+
     $("#uploadApi").bind("click", function(){
-        $("body").block({  message: '<h1><img src="img/busy.gif" /> 正在提交...</h1>'} );
+        //$("body").block({  message: '<h1><img src="img/busy.gif" /> 正在提交...</h1>'} );
         var result = getTotalData();
         $('<input />').attr('type', 'hidden')
             .attr('name', 'parameter')
             .attr('value', result)
             .appendTo('#apiInfo');
+        var options = {
+            success: showResponse,
+            url: 'login.ns.module/loginAction.action',
+            type: 'post'
+        };
         $("#apiInfo").submit(function(){
-            $(this).ajaxSubmit(function(result){
-                $("body").unblock();
-            });
+            $(this).ajaxSubmit(options);
+            alert("success");
             return false;
         });
     });
