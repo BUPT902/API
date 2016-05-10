@@ -229,6 +229,7 @@ $(document).ready(function(){
     }
 
     function removeDiv(){
+        $.unblockUI();
     }
 
     $("#uploadApi").bind("click", function(){
