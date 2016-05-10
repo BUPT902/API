@@ -228,27 +228,19 @@ $(document).ready(function(){
         return JSON.stringify(data);
     }
 
-    function showResponse(){
-        alert("OK");
+    function removeDiv(){
     }
 
     $("#uploadApi").bind("click", function(){
-        //$("body").block({  message: '<h1><img src="img/busy.gif" /> 正在提交...</h1>'} );
+        $.blockUI({  message: '<h1><img src="'+url+'" /> 正在提交...</h1>'} );
         var result = getTotalData();
         $('<input />').attr('type', 'hidden')
             .attr('name', 'parameter')
             .attr('value', result)
             .appendTo('#apiInfo');
-        var options = {
-            success: showResponse,
-            url: 'login.ns.module/loginAction.action',
-            type: 'post'
-        };
-        $("#apiInfo").submit(function(){
-            $(this).ajaxSubmit(options);
-            alert("success");
-            return false;
-        });
+
+        $("#apiInfo").submit();
+        setTimeout(removeDiv, 2000);
     });
 
     //=============================API列表的导航==========================//

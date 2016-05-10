@@ -54,7 +54,7 @@ class APIForm_modify(forms.ModelForm):
                                                            'style':'height: 60px',
                                                            'placeholder':u"""简要描述下你的API吧，便于更快的检索\n\n示例：快递查询API，覆盖国内外100余家快递公司业务中的公司名称、快递电话、快递进度等信息。"""
                                                            }),
-            'name' : forms.TextInput(attrs={'placeholder':u'请输入API英文名称', 'readonly':True},),
+            'name' : forms.TextInput(attrs={'placeholder':u'请输入API英文名称', 'readonly':True, 'style':"background-color:#EBEBE4"},),
             'upstream_url':forms.URLInput(attrs={'placeholder':'请写不含参数的url'}),
             'requestType' : forms.RadioSelect(attrs={'class':'mt15'}),
             'returnSample' : forms.Textarea(attrs={'class':'api-long',
