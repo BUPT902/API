@@ -143,9 +143,8 @@
                                 <div class="ml20 fl">
                                     <div class="form-item">
                                         <label class="form-label">API英文名称</label>
-                                        <input id="id_name" type="text" value="weather" placeholder="请输入API英文名称">
-                                        <!--{{form.name}}-->
-                                        <!--{{form.name.errors}}-->
+                                        {{form.name}}
+                                        {{form.name.errors}}
 
                                     </div>
                                 </div>
@@ -202,6 +201,7 @@
                                     </label>
                                 </div>
                                 {{form.returnSample}}
+                                {{form.returnSample.errors}}
                                 <!--<textarea id="apiResExample" class="api-long" placeholder='JSON响应示例：-->
                                 <!--{-->
                                 <!--"errNum": 0,//错误码-->
@@ -222,6 +222,7 @@
                                 </div>
                                 <!--<textarea id="apiRemark" class="api-long"></textarea>-->
                                 {{form.remake}}
+                                {{form.remake.errors}}
                             </div>
                             <div class="mt20 clearfix">
                                 <a id="secPre" class="btn btn-blue">上一步</a>

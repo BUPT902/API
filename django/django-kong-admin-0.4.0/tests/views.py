@@ -10,6 +10,8 @@ import json
 from django import forms
 from django.forms import formset_factory, inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
+from .forms import *
+from kong_admin.enums import Plugins
 
 
 # Create your views here.
@@ -78,67 +80,29 @@ def userCenter(request):
     return render_to_response('userCenter.html', context)
 
 
-# class ParamForm(forms.ModelForm):
-#
-#     class Meta:
-#         exclude = ['api']
-#         model = ParameterReference
-#         widgets = {
-#             'name' : forms.TextInput(attrs={'class': 'data-param-name',
-#                                             'placeholder' : u'英文',
-#                                             }),
-#             'type': forms.TextInput(attrs={'class':"select-fath data-param-type",
-#                                         }),
-#             'description' : forms.TextInput(attrs={'class' : "data-param-desc",
-#             }),
-#             'defaultValue' : forms.TextInput(attrs={'class':'data-param-default'}),
-#             'id' :  forms.TextInput(attrs={'type':'hidden',},)
-#         }
-
-
-class APIForm(forms.ModelForm):
-
-    class Meta:
-        model = APIReference
-        exclude = ['owner', 'request_path', 'request_host', 'preserve_host', 'strip_request_path']
-        widgets ={
-            'APIChineseName' : forms.TextInput(attrs={'placeholder': u'请输入API中文名称'}),
-            'API_description' : forms.Textarea(attrs={'class':'api-long apiSimpleIntro',
-                                                      'placeholder':u"""详细描述下吧，API的功能等信息\n\n示例：快递查询API，覆盖国内外100余家快递公司业务中的公司名称、快递电话、快递进度等信息。\n包含数据项为：缓存时间（当前时间与 update 之间的差值）、快递进度、快递公司英文代码、快递公司中文名、快递单号、快递电话、最后更新时间等数据项。\n可用于快递信息查询、快递派送路线分析及优化、快递公司效率对比与选择、快递公司经营分析与优化、快递大户搜索统计，快递物品分析及营销投放、快递效率优化、快递公司快递员KPI、快递公司电话查询、经济景气指数建立与预测等。"""
-                                                      }),
-            'APIShort_description' : forms.Textarea(attrs={'class':'mt15 api-long apiSimpleIntro',
-                                                           'style':'height: 60px',
-                                                           'placeholder':u"""简要描述下你的API吧，便于更快的检索\n\n示例：快递查询API，覆盖国内外100余家快递公司业务中的公司名称、快递电话、快递进度等信息。"""
-                                                           }),
-            'name' : forms.TextInput(attrs={'placeholder':u'请输入API英文名称'}),
-            'upstream_url':forms.URLInput(attrs={'placeholder':'请写不含参数的url'}),
-            'requestType' : forms.RadioSelect(attrs={'class':'mt15'}),
-            'returnSample' : forms.Textarea(attrs={'class':'api-long',
-                                                   'placeholder':
-                                                                """JSON响应示例：
-                                                            {
-                                                            "errNum": 0,//错误码
-                                                                "errMsg": "success", //返回结果提示信息
-                                                                "retData": {
-                                                                    "phonenum": "15210011578",//手机号
-                                                                    "province": "北京",  //所属省份
-                                                                    "carrier": "北京移动" //运营商
-                                                                }
-                                                            }"""
-                                                   }),
-            'remake' : forms.Textarea(attrs={'class':'api-long'}),
-            'logo' : forms.FileInput(attrs={'id':'uploadBtn', 'type':'file', 'class':'upload'})
-
-        }
-
-
 def ConfigPlugin(API):
-    obj = json.dumps({'time': '1'})
-    plugin = PluginConfigurationReference(api=API, plugin=2, config=obj)
+    PluginConfigurationReference.objects.filter(api=API).delete()
+    if API.APISecLimit or API.APIDayLimit:
+        rate_limit={}
+        if API.APISecLimit:
+            rate_limit['second'] = API.APISecLimit
+        if API.APIDayLimit:
+            rate_limit['day'] = API.APIDayLimit
+        obj = json.dumps(rate_limit)
+        plugin = PluginConfigurationReference(api=API, plugin=Plugins.RATE_LIMITING, config=obj)
+        plugin.save()
+    plugin = PluginConfigurationReference(api=API, plugin=Plugins.KEY_AUTHENTICATION, config=json.dumps({}))
+    plugin.save()
+    acl = {}
+    acl['whitelist'] = API.name
+    plugin = PluginConfigurationReference(api=API, plugin=Plugins.ACL, config=json.dumps(acl))
     plugin.save()
 
 
 def ConfigPara(API, parameter):
+    ParameterReference.objects.filter(api=API).delete()
+    ErrorReference.objects.filter(api=API).delete()
+    HeaderReference.objects.filter(api=API).delete()
     json_dict = json.loads(parameter)
     errorCode  = json_dict['errorCode']
     header  =  json_dict['header']
@@ -185,35 +149,41 @@ def registerApi(request):
     return render_to_response('registerApi.html', context=context)
 
 
+def edit_api(request):
+    if request.method == "POST":
+        dict = request.POST.dict()
+        print(dict['apiName'])
+        api = APIReference.objects.get(name=dict['apiName'])
+        json_dict = {}
+        error_dict = {}
+        for i, error in enumerate(ErrorReference.objects.filter(api=api).values()):
+            error_dict['err' + str(i)] = error
+        json_dict['error'] = error_dict
+        param_dict = {}
+        for i, param in enumerate(ParameterReference.objects.filter(api=api).values()):
+            param_dict['param' + str(i)] = param
+        json_dict['param'] = param_dict
+        head_dict = {}
+        for i, head in enumerate(HeaderReference.objects.filter(api=api).values()):
+            head_dict['head' + str(i)] = head
+        json_dict['head'] = param_dict
+        print(json.dumps(json_dict))
+        return HttpResponse(json.dumps(json_dict))
+
+
+
 def modifyApi(request, param1):
     print(param1)
     api = APIReference.objects.get(name=param1)
-    json_dict = {}
-    error_dict = {}
-    for i,  error in enumerate(ErrorReference.objects.filter(api=api).values()):
-        error_dict['err'+str(i)] = error
-    json_dict['error'] = error_dict
-    param_dict = {}
-    for i, param in enumerate(ParameterReference.objects.filter(api=api).values()):
-        param_dict['param' + str(i)] = param
-    json_dict['param'] = param_dict
-    head_dict = {}
-    for i, head in enumerate(HeaderReference.objects.filter(api=api).values()):
-        head_dict['head' + str(i)] = head
-    json_dict['head'] = param_dict
-    # print(json_dict)
-    print(json.dumps(json_dict))
     if request.method == "POST":
         info = request.POST.copy()
         parameter = info['parameter']
+        print(parameter)
         del info['parameter']
-        form = APIForm(info, request.FILES)
+        form = APIForm_modify(info, request.FILES, instance=api)
         if form.is_valid():
             username = request.COOKIES.get('username', '')
             API_new = form.save(commit=False)
-            API_new.request_path = '/' + API_new.name
-            API_new.strip_request_path = True
-            API_new.owner = ConsumerReference.objects.get(username=username)
             API_new.save()
             ConfigPara(API_new, parameter)
             ConfigPlugin(API_new)
@@ -223,7 +193,7 @@ def modifyApi(request, param1):
                 'form': form,
             }
     else:
-        form = APIForm(instance=api)
+        form = APIForm_modify(instance=api)
         context = {
             'form': form,
         }

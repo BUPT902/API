@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^delete_api/', 'tests.views.delete_api'),
     url(r'^apiHandler/', 'tests.views.apiHandler'),
     url(r'^registerConsumer$', 'tests.views.registerConsumer'),
+    url(r'^edit-api/', 'tests.views.edit_api'),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.join(BASE_DIR2,'media'), 'show_indexes': True }),
 ]

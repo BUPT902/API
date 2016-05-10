@@ -7,7 +7,7 @@ $(document).ready(function(){
     //说明是发布API，不需要发送请求
     if(editApiName !== ""){
         $.ajax({
-            type: "GET",
+            type: "POST",
             url: "/edit-api/",
             data: {
                 apiName: editApiName
