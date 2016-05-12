@@ -55,7 +55,7 @@ class APIReference(KongProxyModel):
     owner = models.ForeignKey('ConsumerReference', verbose_name=u'所属人', to_field = 'username', related_name='infos', help_text=_(u'API所属人'),
                                   null=True)
     logo = models.ImageField(upload_to='image',  default='defaut.jpg', null=True, blank=True)
-    dataFileName = models.CharField(u"API操作数据文件的名称", max_length=256, null=True, blank=True, help_text=u"API操作数据文件的名称")
+    dataFileName = models.CharField(u"API操作数据文件的名称", max_length=255, null=True, blank=True, help_text=u"API操作数据文件的名称")
     APIChineseName = models.CharField(u"API中文名", null=True, blank=True, max_length=32, default=None, help_text=_(
         u'请输入API的中文名'))
     request_host = models.CharField(null=True, blank=True, max_length=32, default=None, help_text=_(
@@ -123,10 +123,10 @@ class APIReference(KongProxyModel):
 class ParameterReference(models.Model):
     api = models.ForeignKey(APIReference, related_name='Parameter', help_text=_(
         u'请添加API的url参数'))
-    name = models.CharField(u'参数名称', max_length=256)
-    type = models.CharField(u'参数类型', max_length=256)
+    name = models.CharField(u'参数名称', max_length=30)
+    type = models.CharField(u'参数类型', max_length=255)
     description = models.TextField(u'参数描述', blank=True, null=True)
-    defaultValue = models.CharField(u'默认值', max_length=256)
+    defaultValue = models.CharField(u'默认值', max_length=255)
     nessesary = models.BooleanField(u'必填')
 
     def __str__(self):
@@ -142,11 +142,11 @@ class ParameterReference(models.Model):
 class HeaderReference(models.Model):
     api = models.ForeignKey(APIReference, related_name='Header', help_text=_(
         u'请添加API的header参数'))
-    name = models.CharField(u'参数名称', max_length=256)
-    type = models.CharField(u'参数类型', max_length=256)
-    description = models.TextField(u'参数描述', max_length=1024, blank=True, null=True)
-    defaultValue = models.CharField(u'默认值', max_length=256)
-    nessesary = models.BooleanField(u'必填', default=True)
+    name = models.CharField(_(u'参数名称'), max_length=30)
+    type = models.CharField(_(u'参数类型'), max_length=255)
+    description = models.TextField(_(u'参数描述'), blank=True, null=True)
+    defaultValue = models.CharField(_(u'默认值'), max_length=255)
+    nessesary = models.BooleanField(_(u'必填'), default=True)
 
     def __str__(self):
         return self.name
@@ -162,7 +162,7 @@ class ErrorReference(models.Model):
     api = models.ForeignKey(APIReference, related_name='Error', help_text=_(
         u'请添加API的错误表'))
     code = models.IntegerField(u"错误码", default=0)
-    message = models.CharField(u'错误信息', max_length=256)
+    message = models.CharField(u'错误信息', max_length=255)
     description = models.TextField(u'错误描述', max_length=1024)
 
     def __str__(self):

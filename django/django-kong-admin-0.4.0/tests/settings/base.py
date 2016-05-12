@@ -77,3 +77,13 @@ STATICFILES_DIRS = (
    os.path.join(str(BASE_DIR2), 'templates/model/'),
 )
 ROOT_URLCONF = 'tests.settings.urls'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_USE_TLS = False
+EMAIL_HOST = 'smtp.sina.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'bupt2012211305@sina.com'
+EMAIL_HOST_PASSWORD = '2012211305'
+DEFAULT_FROM_EMAIL = 'bupt2012211305@sina.com'

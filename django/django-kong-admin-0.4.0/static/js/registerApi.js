@@ -17,19 +17,19 @@ $(document).ready(function(){
         $block.eq($(node).index()).css("display","block");
     });
 
-    $("#apiCategory").bind("change",function(){
+    $("#id_APIcategory").bind("change",function(){
         var value = Number($(this).val());
         if(value === 1){
-            $("#fileName").show();
+            $("#fileDataName").show();
             $("#desWords").text("本平台数据提供型API，需要为API指定用于数据提供的数据文件名称，请填入数据名称输入栏中");
         }else if(value === 2){
-            $("#fileName").hide();
+            $("#fileDataName").hide();
             $("#desWords").text("本平台数据操作型API，所要操作的数据需要作为参数传入");
         }else if(value === 3){
-            $("#fileName").hide();
+            $("#fileDataName").hide();
             $("#desWords").text("平台纯功能型API，没有对平台数据文件的操作");
         }else if(value === 4){
-            $("#fileName").hide();
+            $("#fileDataName").hide();
             $("#desWords").text("外部注册型API，填写需要的参数和信息，本平台不会对其进行数据文件的日志记录");
         }
     });

@@ -2,23 +2,26 @@
 from __future__ import unicode_literals, print_function
 from .base import *
 
-DATABASES = {
-    # https://github.com/joke2k/django-environ
-    #  Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ, and no default
-    #  was given.
-    'default': env.db(default='sqlite:///%s' % os.path.join((BASE_DIR - 2).root, 'db.sqlite3'))
-}
-
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'bigdatadev',    #你的数据库名称
-#         'USER': 'bigdata',   #你的数据库用户名
-#         'PASSWORD': 'bigdata@123', #你的数据库密码
-#         'HOST': '182.254.134.204', #你的数据库主机，留空默认为localhost
-#         'PORT': '3306', #你的数据库端口
-#     }
+#     # https://github.com/joke2k/django-environ
+#     #  Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ, and no default
+#     #  was given.
+#     'default': env.db(default='sqlite:///%s' % os.path.join((BASE_DIR - 2).root, 'db.sqlite3'))
 # }
+
+DEFAULT_CHARSET = 'utf-8'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'bigdatadev',    #你的数据库名称
+        'USER': 'bigdata',   #你的数据库用户名
+        'PASSWORD': 'bigdata@123', #你的数据库密码
+        'HOST': '182.254.134.204', #你的数据库主机，留空默认为localhost
+        'PORT': '3306', #你的数据库端口
+        'OPTIONS': {'charset': 'utf8'},
+    }
+}
 
 KONG_ADMIN_URL = env('KONG_ADMIN_URL', default='http://localhost:8001')
 KONG_ADMIN_SIMULATOR = env('KONG_ADMIN_SIMULATOR', default=False)
