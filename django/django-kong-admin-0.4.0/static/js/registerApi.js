@@ -17,19 +17,19 @@ $(document).ready(function(){
         $block.eq($(node).index()).css("display","block");
     });
 
-    $("#apiCategory").bind("change",function(){
+    $("#id_APIcategory").bind("change",function(){
         var value = Number($(this).val());
         if(value === 1){
-            $("#fileName").show();
+            $("#fileDataName").show();
             $("#desWords").text("本平台数据提供型API，需要为API指定用于数据提供的数据文件名称，请填入数据名称输入栏中");
         }else if(value === 2){
-            $("#fileName").hide();
+            $("#fileDataName").hide();
             $("#desWords").text("本平台数据操作型API，所要操作的数据需要作为参数传入");
         }else if(value === 3){
-            $("#fileName").hide();
+            $("#fileDataName").hide();
             $("#desWords").text("平台纯功能型API，没有对平台数据文件的操作");
         }else if(value === 4){
-            $("#fileName").hide();
+            $("#fileDataName").hide();
             $("#desWords").text("外部注册型API，填写需要的参数和信息，本平台不会对其进行数据文件的日志记录");
         }
     });
@@ -286,6 +286,52 @@ $(document).ready(function(){
         $("#jquery-msg-overlay").show();
     });
 
+    $("#useApi").bind("click", function(){
+        var url = window.location;
+        var pattern = /^http:\/\/[\w\d\.:]+(\/.*)/g,
+            postUrl = pattern.exec(url)[1];
+        console.log(postUrl);
+        $.ajax(function () {
+            $.ajax({
+                type:"POST",
+                url: postUrl,
+                success:function(response){
+                    createUseApiMsg(response);
+                }
+            });
+        });
+
+    });
+
+    function createUseApiMsg(message){
+        var height = document.body.scrollHeight;
+        var width =  document.body.scrollWidth;
+        var $node = $('<div id="useApiMsg" class="overlay"></div>');
+        $node.css("height", height);
+        $node.css("width", width);
+
+        var $bg = $('<div class="use-api-bg"></div>');
+
+        $("body").append($node);
+        $node.append($bg);
+
+        var str = '<div id="jquery-msg-content" class="jquery-msg-content dialog-in"> ' +
+            '<div class="modal-bg"> ' +
+            '<div class="msg_modal claim-service-modal"> ' +
+            '<h3 class="msg_modal_title">消息</h3> ' +
+            '<div style="padding: 20px; font-size: 15px; background-color: #fff">'+message+'<br/> </div> </div> <div class="modal_confirm_bottom clearfix"> ' +
+            '<a id="apiUseConfirm" class="btn-table btn-blue fr mr40">确定</a> </div> </div>';
+
+        $node.append(str);
+
+        $("#apiUseConfirm").bind("click",function(){
+            $node.remove();
+        });
+    }
+
+
+
+    //================================用户中心API删除=========================//
     $("#overlayConfirm").bind("click",function(){
         $("#jquery-msg-overlay").hide();
     });
