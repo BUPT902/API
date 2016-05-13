@@ -291,14 +291,12 @@ $(document).ready(function(){
         var pattern = /^http:\/\/[\w\d\.:]+(\/.*)/g,
             postUrl = pattern.exec(url)[1];
         console.log(postUrl);
-        $.ajax(function () {
-            $.ajax({
-                type:"POST",
-                url: postUrl,
-                success:function(response){
-                    createUseApiMsg(response);
-                }
-            });
+        $.ajax({
+            type:"POST",
+            url: postUrl,
+            success:function(response){
+               createUseApiMsg(response);
+            }
         });
 
     });
