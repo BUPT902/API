@@ -29,20 +29,19 @@ def synchronize_consumer_references(request, queryset=None):
     return _synchronize_multiple_references(request, logic.synchronize_consumers, 'Consumer', queryset=queryset)
 
 
-@staff_member_required
+# @staff_member_required
 def synchronize_consumer_reference(request, pk, toggle_enable=False):
     obj = ConsumerReference.objects.get(id=pk)
     return _synchronize_single_reference(
         request, logic.synchronize_consumer, 'Consumer', obj, toggle_enable=toggle_enable)
 
 
-@staff_member_required
 def show_config(request):
     """
     This view shows the configuration as it is known by Kong
     """
-    if not request.user.is_staff:
-        return HttpResponse('Only staff is authorized to view the configuration', status=403)
+    # if not request.user.is_staff:
+    #     return HttpResponse('Only staff is authorized to view the configuration', status=403)
 
     kong = factory.get_kong_client()
 
@@ -88,5 +87,5 @@ def _synchronize_single_reference(request, sync_func, entity_name, obj, toggle_e
         messages.add_message(
             request, messages.SUCCESS, 'Successfully synced %s Reference (it can take a while before the '
                                        'changes are visible!)' % entity_name)
-
-    return HttpResponseRedirect(request.META["HTTP_REFERER"])
+    if "HTTP_REFERER" in request.META:
+        return HttpResponseRedirect(request.META["HTTP_REFERER"])

@@ -1,7 +1,7 @@
 #coding=utf-8
 from django.shortcuts import render
 from kong_admin.models import APIReference, ParameterReference, HeaderReference, ErrorReference, ConsumerReference, KeyAuthReference,\
-    PluginConfigurationReference
+    PluginConfigurationReference,  BuyReference,  AclReference
 from django.shortcuts import render_to_response,  HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from kong_admin.views import synchronize_api_reference, synchronize_api_references, synchronize_consumer_reference, \
@@ -12,11 +12,23 @@ from django.forms import formset_factory, inlineformset_factory
 from django.utils.translation import ugettext_lazy as _
 from .forms import *
 from kong_admin.enums import Plugins
+from kong_admin import factory, logic
+from django.core.mail import send_mail
+from django.forms import model_to_dict
 
 
-# Create your views here.
+def get_username(request):
+    username = request.COOKIES.get('username', '')
+    return username
+
+
 def index(request):
-    #blog_list = BlogsPost.objects.all()
+    """
+    @summary: 处理index页面，返回指向待爬取网页的Request列表
+    @param request:请求
+    @return:主页的相应
+    """
+    # blog_list = BlogsPost.objects.all()
     response = render_to_response('apiIndex.html')
     response.set_cookie("username", 'test')
     return response
@@ -43,8 +55,25 @@ def apiCategory(request, param1):
 
 def apiDetail(request, param1):
     api = APIReference.objects.get(name = param1)
-    username = request.COOKIES.get('username', '')
+    username = get_username(request)
     person = ConsumerReference.objects.get(username = username)
+    status = 0
+    if request.method == "POST":
+        # obj = BuyReference.objects.filter(api=api).filter(consumer=person)
+        try:
+            new_buy = BuyReference(api=api,consumer=person)
+            new_buy.save()
+            Acl = AclReference(consumer=person, group=param1)
+            Acl.save()
+            print(person.id)
+            client = factory.get_kong_client()
+            obj = ConsumerReference.objects.get(id=person.id)
+            logic.synchronize_consumer(client, obj, toggle=False)
+            client.close()
+            status = 1
+        except:
+            print(u"请勿重复购买")
+            status = 2
     api_key = person.keyauthreference_related.all()[:1]
     api_key = api_key[0]
     gateway_url = 'http://10.33.6.199:8000'
@@ -62,12 +91,14 @@ def apiDetail(request, param1):
         'Headers' : Headers,
         'Errors' : Errors,
         'api_key': api_key,
+        'status' : status,
     }
     return render_to_response('apiDetail.html', context)
 
 
 def userCenter(request):
-    username = request.COOKIES.get('username', '')
+    # username = request.COOKIES.get('username', '')
+    username = get_username(request)
     person = ConsumerReference.objects.get(username = username)
     apis = person.infos.all()
     buy_apis = person.Buy_consumer.all()
@@ -128,7 +159,8 @@ def registerApi(request):
         del info['parameter']
         form = APIForm(info, request.FILES)
         if form.is_valid():
-            username = request.COOKIES.get('username', '')
+            # username = request.COOKIES.get('username', '')
+            username = get_username(request)
             API_new = form.save(commit=False)
             API_new.request_path = '/' + API_new.name
             API_new.strip_request_path = True
@@ -136,6 +168,11 @@ def registerApi(request):
             API_new.save()
             ConfigPara(API_new, parameter)
             ConfigPlugin(API_new)
+            message = u"API名:"+str(API_new.name)+'\n'
+            message +=  u"API中文名"+API_new.APIChineseName+'\n'
+            message += u"API信息:\n" + str(model_to_dict(API_new))
+            send_mail(u'用户'+str(username)+u'发布了一个新的API', message, 'bupt2012211305@sina.com',
+                      ['845842278@qq.com'], fail_silently=False)
             return HttpResponseRedirect('/userCenter')
         else:
             context = {
@@ -166,7 +203,7 @@ def edit_api(request):
         head_dict = {}
         for i, head in enumerate(HeaderReference.objects.filter(api=api).values()):
             head_dict['head' + str(i)] = head
-        json_dict['head'] = param_dict
+        json_dict['head'] = head_dict
         print(json.dumps(json_dict))
         return HttpResponse(json.dumps(json_dict))
 
@@ -182,11 +219,17 @@ def modifyApi(request, param1):
         del info['parameter']
         form = APIForm_modify(info, request.FILES, instance=api)
         if form.is_valid():
-            username = request.COOKIES.get('username', '')
+            username = get_username(request)
+            # username = request.COOKIES.get('username', '')
             API_new = form.save(commit=False)
             API_new.save()
             ConfigPara(API_new, parameter)
             ConfigPlugin(API_new)
+            message = u"API名:"+str(API_new.name)+'\n'
+            message +=  u"API中文名"+API_new.APIChineseName+'\n'
+            message += u"API信息:\n" + str(model_to_dict(API_new))
+            send_mail(u'用户'+ str(username) + u'修改了一个API', message, 'bupt2012211305@sina.com',
+                      ['845842278@qq.com'], fail_silently=False)
             return HttpResponseRedirect('/userCenter')
         else:
             context = {
@@ -216,20 +259,22 @@ def ConfigConsumer(username):
     consumer.save()
     KeyAuth = KeyAuthReference(consumer=consumer)
     KeyAuth.save()
-
+    print(consumer.id)
+    client = factory.get_kong_client()
+    obj = ConsumerReference.objects.get(id=consumer.id)
+    logic.synchronize_consumer(client, obj, toggle=False)
+    client.close()
 
 def registerConsumer(request):
     if request.method == "GET":
         print(request.GET)
         name = request.GET.get('name')
         back = request.GET.get('callback')
-        print(back)
-        print(type(name))
+        print(name)
         d = {}
-        d[name] = '1'
+        d['message'] = '1'
         obj = json.dumps(d)
-        print(type(str(back+'('+ obj+')')))
-        ConfigConsumer()
+        ConfigConsumer(name)
         return HttpResponse(str(back+'('+ obj+')'))
 
 def apiHandler(request):
