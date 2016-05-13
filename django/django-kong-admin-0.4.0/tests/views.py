@@ -57,6 +57,7 @@ def apiDetail(request, param1):
     api = APIReference.objects.get(name = param1)
     username = get_username(request)
     person = ConsumerReference.objects.get(username = username)
+    status = 0
     if request.method == "POST":
         # obj = BuyReference.objects.filter(api=api).filter(consumer=person)
         try:
@@ -69,9 +70,10 @@ def apiDetail(request, param1):
             obj = ConsumerReference.objects.get(id=person.id)
             logic.synchronize_consumer(client, obj, toggle=False)
             client.close()
-
+            status = 1
         except:
             print(u"请勿重复购买")
+            status = 2
     api_key = person.keyauthreference_related.all()[:1]
     api_key = api_key[0]
     gateway_url = 'http://10.33.6.199:8000'
@@ -89,6 +91,7 @@ def apiDetail(request, param1):
         'Headers' : Headers,
         'Errors' : Errors,
         'api_key': api_key,
+        'status' : status,
     }
     return render_to_response('apiDetail.html', context)
 
