@@ -287,15 +287,21 @@ $(document).ready(function(){
     });
 
     $("#useApi").bind("click", function(){
-        var url = window.location;
+        $.blockUI({  message: '<h1><img src="'+url+'" /> 正在提交申请...</h1>'} );
+        var nowUrl = window.location;
         var pattern = /^http:\/\/[\w\d\.:]+(\/.*)/g,
-            postUrl = pattern.exec(url)[1];
+            postUrl = pattern.exec(nowUrl)[1];
         console.log(postUrl);
         $.ajax({
             type:"POST",
             url: postUrl,
             success:function(response){
-               createUseApiMsg(response);
+                $.unblockUI();
+                if(response === '1'){
+                    createUseApiMsg("申请使用成功");
+                }else if(response === '2'){
+                    createUseApiMsg("失败了");
+                }
             }
         });
 
