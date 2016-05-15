@@ -475,6 +475,9 @@ input[type=text].api-long, textarea.api-long {
     top: -130px;
     left: 0;
     transition: 0.3s;
+    -moz-transition: 0.3s; /* Firefox 4 */
+    -webkit-transition: 0.3s; /* Safari ºÍ Chrome */
+    -o-transition: 0.3s; /* Opera */
 }
 .api-item-des {
     position: absolute;
