@@ -60,7 +60,7 @@
         result.username = params['username'];
         $.ajax({
             type: "post",
-            url: "setUserInfo.htm",
+            url: "/login/",
             data: {
                 params: JSON.stringify(result)
             },
