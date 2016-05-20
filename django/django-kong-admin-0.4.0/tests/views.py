@@ -22,6 +22,12 @@ def get_username(request):
     return username
 
 
+def login(requst):
+    print(requst)
+    obj  = json.dumps({'isLog':'1'})
+    return HttpResponse(obj)
+
+
 def index(request):
     """
     @summary: 处理index页面，返回指向待爬取网页的Request列表
@@ -70,19 +76,18 @@ def apiDetail(request, param1):
             obj = ConsumerReference.objects.get(id=person.id)
             logic.synchronize_consumer(client, obj, toggle=False)
             client.close()
-            status = 1
+            return HttpResponse("1")
         except:
-            print(u"请勿重复购买")
-            status = 2
+            return HttpResponse("2")
     api_key = person.keyauthreference_related.all()[:1]
     api_key = api_key[0]
     gateway_url = 'http://10.33.6.199:8000'
     url_Parameters = ParameterReference.objects.filter(api__name__exact = param1)
     Headers = HeaderReference.objects.filter(api__name__exact = param1)
     Errors  = ErrorReference.objects.filter(api__name__exact = param1)
-    url_example = ""
+    url_example = "?"
     for para in url_Parameters:
-        url_example += '?' + para.name + '=' + para.defaultValue
+        url_example += para.name + '=' + para.defaultValue + '&'
     context = {
         'api' : api,
         'gateway_url' : gateway_url,
