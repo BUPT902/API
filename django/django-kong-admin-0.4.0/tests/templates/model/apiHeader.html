@@ -9,7 +9,7 @@
                     <li><a href="/userCenter">用户中心</a></li>
                 </ul>
 
-                <div class="user">
+                <div id="userInfo" class="user">
                     <!-- 用户未登陆成功时，显示注册和登录-->
                         <a class="register" href="/API/pages/register.html">注册</a>
                         <a class="login" href="/API/pages/login.html">登录</a>
@@ -35,4 +35,45 @@
     if(win.indexOf("apiCategory") !== -1){
         $(".navbar-group li").eq(1).addClass("active");
     }
+    function getUserInfo(){
+        var url = "http://10.103.246.124:8080/apiplat?callback=?";
+        var params;
+        $.getJSON(url, function(data) {
+            var status = data['staus'];
+            if (status == 0) {
+                params = {
+                    "status" : 0
+                };
+            } else {
+                params = {
+                    "status" : 1,
+                    "username" : data["name"]
+                };
+            }
+            setUserInfo(params);
+        });
+    }
+
+    function setUserInfo(params){
+        $.ajax({
+            type: "post",
+            url: "setUserInfo.htm",
+            data: params,
+            dataType: "json",
+            success : function(data) {
+                var isLog = data.isLog;
+                var userName = data.userName;
+
+                //登录页面传来用户的信息，再通过post传递到后台，之前没有存在，则返回1，前端从未登录变为已登录
+                if(isLog === 1){
+                    var html = "<span>欢迎你："+userName+"</span>--> <a href='login.html'>902实验室</a>";
+                    $("#userInfo").html(html);
+                }else if(isLog === 0){       //用户没有登录，或已注销，则post处清除用户信息，返回0，前端变为未登录
+                    var html = "<a class='register' href='/API/pages/register.html'>注册</a> <a class='login' href=''/API/pages/login.html'>登录</a>"
+                    $("#userInfo").html(html);
+                }
+            }
+        });
+    }
+    getUserInfo();
 </script>

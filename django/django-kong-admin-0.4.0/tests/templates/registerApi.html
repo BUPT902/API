@@ -50,16 +50,16 @@
                                     {{ form.APIcategory }}
                                     {{form.APIcategory.errors}}
 
-                                    <!--<select class="mt20" id="apiCategory">-->
+                                    <!--<select class="mt20 input-dropdown" id="apiCategory">-->
                                         <!--<option value="1">平台数据提供API</option>-->
                                         <!--<option value="2">平台数据操作API</option>-->
                                         <!--<option value="3">平台纯功能型API</option>-->
                                         <!--<option value="4">外部注册型API</option>-->
                                     <!--</select>-->
-                                    <div id="fileDataName" class="file-name">
-                                        <label for="fileName">数据名称：</label>
-                                        <input id="fileName" type="text" placeholder="请输入文件的名称">
-                                    </div>
+                                    <!--<div id="fileDataName" class="file-name">-->
+                                        <!--<label for="fileName">数据名称：</label>-->
+                                        <!--<input id="fileName" type="text" placeholder="请输入文件的名称">-->
+                                    <!--</div>-->
                                 </div>
                                 <div class="form-item-des">
                                     <span class="des-words" id="desWords">本平台数据提供型API，需要为API指定用于数据提供的数据文件名称，请填入数据名称输入栏中</span>
@@ -363,9 +363,9 @@
 <script src="{% static 'js/jquery.formset.js' %}"></script>
 <script src="{% static 'js/localStorage.js' %}"></script>
 <script src="{% static 'js/editAPI.js' %}"></script>
-<script>
-    $("#apiInfo").formLocalStorage();
-</script>
+<!--<script>-->
+    <!--$("#apiInfo").formLocalStorage();-->
+<!--</script>-->
 <!--<script src="../../static/js/jquery-2.2.1.min.js"></script>-->
 <!--<script src="../../static/js/totop.js"></script>-->
 <!--<script src="../../static/js/registerApi.js"></script>-->
