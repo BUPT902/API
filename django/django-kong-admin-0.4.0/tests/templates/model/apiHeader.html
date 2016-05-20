@@ -44,35 +44,32 @@
                 params = {
                     "status" : 0
                 };
+                var html = "<a class='register' href='http://10.103.246.124:8080/register'>注册</a> <a class='login' href='http://10.103.246.124:8080/login'>登录</a>"
+                $("#userInfo").html(html);
             } else {
                 params = {
                     "status" : 1,
                     "username" : data["name"]
                 };
+                var html = "<span>欢迎你：</span> <a href='login.html'>"+data["name"]+"</a>";
+                $("#userInfo").html(html);
             }
             setUserInfo(params);
         });
     }
 
     function setUserInfo(params){
-        console.log(params);
+        var result = {};
+        result.status = params['status'];
+        result.username = params['username'];
         $.ajax({
             type: "post",
-            url: "/login",
-            data: params,
-            dataType: "json",
+            url: "/login/",
+            data: {
+                params: JSON.stringify(result)
+            },
             success : function(data) {
-                var isLog = data.isLog;
-                var userName = data.userName;
 
-                //登录页面传来用户的信息，再通过post传递到后台，之前没有存在，则返回1，前端从未登录变为已登录
-                if(isLog === 1){
-                    var html = "<span>欢迎你："+userName+"</span>--> <a href='login.html'>902实验室</a>";
-                    $("#userInfo").html(html);
-                }else if(isLog === 0){       //用户没有登录，或已注销，则post处清除用户信息，返回0，前端变为未登录
-                    var html = "<a class='register' href='/API/pages/register.html'>注册</a> <a class='login' href=''/API/pages/login.html'>登录</a>"
-                    $("#userInfo").html(html);
-                }
             }
         });
     }

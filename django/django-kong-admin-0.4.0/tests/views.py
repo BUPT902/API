@@ -18,13 +18,21 @@ from django.forms import model_to_dict
 
 
 def get_username(request):
-    username = request.COOKIES.get('username', '')
-    return username
+    username = request.session.get('username')
+    if username:
+    # username = request.COOKIES.get('username', '')
+        return username
+    else:
+        return None
+
 
 
 def login(requst):
-    print(requst)
-    obj  = json.dumps({'isLog':'1'})
+    info = requst.POST
+    json_obj = json.loads(info['params'])
+    if json_obj['status'] == 1:
+        requst.session['username'] = json_obj['username']
+    obj = json.dumps({'isLog':'1'})
     return HttpResponse(obj)
 
 
@@ -104,6 +112,8 @@ def apiDetail(request, param1):
 def userCenter(request):
     # username = request.COOKIES.get('username', '')
     username = get_username(request)
+    if not username:
+        return  HttpResponseRedirect('')
     person = ConsumerReference.objects.get(username = username)
     apis = person.infos.all()
     buy_apis = person.Buy_consumer.all()
