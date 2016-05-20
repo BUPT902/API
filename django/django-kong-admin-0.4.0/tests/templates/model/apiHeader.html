@@ -11,8 +11,8 @@
 
                 <div id="userInfo" class="user">
                     <!-- 用户未登陆成功时，显示注册和登录-->
-                        <a class="register" href="/API/pages/register.html">注册</a>
-                        <a class="login" href="/API/pages/login.html">登录</a>
+                        <a class="register" href="http://10.103.246.124:8080/register">注册</a>
+                        <a class="login" href="http://10.103.246.124:8080/login">登录</a>
                     <!-- 用户注册成功时，显示用户名-->
                         <!--<span>欢迎你：</span>-->
                         <!--<a href="login.html">902实验室</a>-->
@@ -55,9 +55,10 @@
     }
 
     function setUserInfo(params){
+        console.log(params);
         $.ajax({
             type: "post",
-            url: "setUserInfo.htm",
+            url: "/login",
             data: params,
             dataType: "json",
             success : function(data) {
