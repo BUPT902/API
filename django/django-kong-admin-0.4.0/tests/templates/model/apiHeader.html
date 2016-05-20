@@ -55,11 +55,15 @@
     }
 
     function setUserInfo(params){
+        var result = {};
+        result.status = params['status'];
+        result.username = params['username'];
         $.ajax({
             type: "post",
             url: "setUserInfo.htm",
-            data: params,
-            dataType: "json",
+            data: {
+                params: JSON.stringify(result)
+            },
             success : function(data) {
                 var isLog = data.isLog;
                 var userName = data.userName;
