@@ -283,6 +283,7 @@ input[type=text].data-param-default {
 }
 .btn-delete {
     background-color: #FF6666;
+    border: 1px solid #FF6666;
 }
 .btn-delete:hover{
     background-color: red;
@@ -304,6 +305,7 @@ input[type=text].data-param-default {
 }
 .btn-edit{
     background-color: #99CCCC;
+    border: 1px solid #99CCCC;
 }
 .btn-create{
     font-size: 10px;
@@ -344,7 +346,7 @@ input[type=text].api-long, textarea.api-long {
     filter: alpha(opacity=0);
 }
 
-/*=====================================·Ö¸îÏß£¬ÓÃ»§ÖÐÐÄ================================*/
+/*=====================================ï¿½Ö¸ï¿½ï¿½ß£ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½================================*/
 .aside-navi {
     width: 224px;
     border: 1px solid #f3f3f3;
@@ -476,7 +478,7 @@ input[type=text].api-long, textarea.api-long {
     left: 0;
     transition: 0.3s;
     -moz-transition: 0.3s; /* Firefox 4 */
-    -webkit-transition: 0.3s; /* Safari ºÍ Chrome */
+    -webkit-transition: 0.3s; /* Safari ï¿½ï¿½ Chrome */
     -o-transition: 0.3s; /* Opera */
 }
 .api-item-des {
@@ -508,7 +510,7 @@ input[type=text].api-long, textarea.api-long {
     color: #35a6e8;
 }
 
-/*==================================================APIÏêÏ¸Ò³=============================================*/
+/*==================================================APIï¿½ï¿½Ï¸Ò³=============================================*/
 .api-detail-img{
     position: relative;
     width: 250px;
@@ -733,7 +735,7 @@ pre{
     -webkit-transform: rotate(90deg);
     transform: rotate(90deg);
 }
-/*===============================================APIÊ×Ò³===========================================*/
+/*===============================================APIï¿½ï¿½Ò³===========================================*/
 .api-list-intro {
     border-top: 3px solid #E8F3FF;
     position: relative;
@@ -793,7 +795,7 @@ pre{
 }
 
 
-/*=======================================Í·²¿µ¼º½Ìõ=====================================*/
+/*=======================================Í·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½=====================================*/
 .navbar-index{
     color: #fff;
     background-color: #000;
@@ -852,7 +854,7 @@ pre{
 .user a{
     color: #fff;
 }
-/*===========================================Î²²¿==============================================*/
+/*===========================================Î²ï¿½ï¿½==============================================*/
 footer .footer-infobox {
     margin: auto;
     width: 97%;
