@@ -69,10 +69,14 @@
     <script src="{% static 'js/jquery-2.2.1.min.js' %}"></script>
     <!--<script src="../../static/js/jquery-2.2.1.min.js"></script>-->
 <script>
-    $("#header").load("/apiHeader");
-//    $(".aside-item").bind("click",function(){
-//        $(this).addClass("active").siblings().removeClass("active");
-//    }
+    $("#header").load("/apiHeader", function(){
+        var url = String(window.location),
+            baseUrl = "http://10.103.246.124:8080/login";
+
+        var encode = encodeURIComponent(url);
+        var returnUrl = baseUrl+"?returnUrl="+encode;
+        $("#login").attr("href", returnUrl);
+    });
     $(".aside-navi li a").each(function(){
         $this = $(this);
         var win = String(window.location);

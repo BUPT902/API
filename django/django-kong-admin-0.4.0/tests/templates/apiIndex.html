@@ -53,8 +53,15 @@
     <div id="footer"></div>
     <script src="{% static 'js/jquery-2.2.1.min.js' %}"></script>
     <script>
-        $("#header").load("../apiHeader");
-        $("#footer").load("../apiFooter");
+    $("#header").load("/apiHeader", function(){
+        var url = String(window.location),
+            baseUrl = "http://10.103.246.124:8080/login";
+
+        var encode = encodeURIComponent(url);
+        var returnUrl = baseUrl+"?returnUrl="+encode;
+        $("#login").attr("href", returnUrl);
+    });
+    $("#footer").load("../apiFooter");
         $(function(){
 
             var newopt={
