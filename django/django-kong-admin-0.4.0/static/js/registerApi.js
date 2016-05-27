@@ -3,7 +3,18 @@
  */
 $(document).ready(function(){
     var apiName = "";
-    $("#header").load("/apiHeader");
+
+    //得到API的导航头部，当load完成之后，将login的值设成+returnUrl的形式
+    $("#header").load("/apiHeader", function(){
+        var url = String(window.location),
+            baseUrl = "http://10.103.246.124:8080/login";
+
+        var encode = encodeURIComponent(url);
+        var returnUrl = baseUrl+"?returnUrl="+encode;
+        $("#login").attr("href", returnUrl);
+    });
+
+    //api注册页的显示
     $(".nav-list").bind("click", function (event) {
         var node = event.target;
         if(node.tagName.toLowerCase() === "span"){
