@@ -18,13 +18,13 @@ from django.forms import model_to_dict
 
 
 def get_username(request):
-    username = request.session.get('username')
-    if username:
+    # username = request.session.get('username')
+    # if username:
     # username = request.COOKIES.get('username', '')
-        return username
-    else:
-        return None
-
+    #     return username
+    # else:
+    #     return None
+    return 'test'
 
 
 def login(requst):
