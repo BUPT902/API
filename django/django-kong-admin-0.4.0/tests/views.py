@@ -1,7 +1,7 @@
 #coding=utf-8
 from django.shortcuts import render
 from kong_admin.models import APIReference, ParameterReference, HeaderReference, ErrorReference, ConsumerReference, KeyAuthReference,\
-    PluginConfigurationReference,  BuyReference,  AclReference
+    PluginConfigurationReference,  BuyReference,  AclReference, Userinfo
 from django.shortcuts import render_to_response,  HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from kong_admin.views import synchronize_api_reference, synchronize_api_references, synchronize_consumer_reference, \
@@ -15,7 +15,8 @@ from kong_admin.enums import Plugins
 from kong_admin import factory, logic
 from django.core.mail import send_mail
 from django.forms import model_to_dict
-
+from requests import get
+from django.contrib.auth.models import User
 
 def get_username(request):
     # username = request.session.get('username')
@@ -40,18 +41,24 @@ def index(request):
     """
     @summary: 处理index页面，返回指向待爬取网页的Request列表
     @param request:请求
-    @return:主页的相应
+    @return:页面的模板
     """
     # blog_list = BlogsPost.objects.all()
+    # user = User.objects.create_superuser(username="admin1",email=None,password="admin")
+    # user.save()
     response = render_to_response('apiIndex.html')
     response.set_cookie("username", 'test')
     return response
 
 
 def apiList(request):
-    api_list = APIReference.objects.all()
-    for api in api_list:
-        print(api.API_description)
+    """
+    @summary: 处理apiList页面，返回指向待爬取网页的Request列表
+    @param request:请求
+    @return:页面的模板
+    """
+    # api_list = APIReference.objects.all()
+    api_list = APIReference.objects.filter(enabled__exact=True)
     context = {
         'api_list' : api_list,
     }
@@ -59,7 +66,7 @@ def apiList(request):
 
 
 def apiCategory(request, param1):
-    print(param1)
+    #print(param1)
     api_list = APIReference.objects.filter(APIService_category__exact=param1)
     context = {
         'api_list' : api_list,
@@ -68,18 +75,27 @@ def apiCategory(request, param1):
 
 
 def apiDetail(request, param1):
+    #http://10.103.240.194:8080/accontroller/apiAccessControl?apiName=weather&userId=15
     api = APIReference.objects.get(name = param1)
     username = get_username(request)
     person = ConsumerReference.objects.get(username = username)
     status = 0
     if request.method == "POST":
-        # obj = BuyReference.objects.filter(api=api).filter(consumer=person)
+        p = Userinfo.objects.get(username=username)
+        payload = {'apiName': param1, 'userId': p.userid}
+        try:
+            req_content = get("http://10.103.240.194:8080/accontroller/apiAccessControl", params=payload, timeout=2)
+            json_content = json.loads(req_content.content)
+            if not(json_content['result']):
+                return HttpResponse('3')
+        except:
+            return HttpResponse("2")
         try:
             new_buy = BuyReference(api=api,consumer=person)
             new_buy.save()
             Acl = AclReference(consumer=person, group=param1)
             Acl.save()
-            print(person.id)
+            #print(person.id)
             client = factory.get_kong_client()
             obj = ConsumerReference.objects.get(id=person.id)
             logic.synchronize_consumer(client, obj, toggle=False)
@@ -113,8 +129,9 @@ def userCenter(request):
     # username = request.COOKIES.get('username', '')
     username = get_username(request)
     if not username:
-        return  HttpResponseRedirect('')
+        return HttpResponseRedirect('/api/')
     person = ConsumerReference.objects.get(username = username)
+    p = Userinfo.objects.get(username=username)
     apis = person.infos.all()
     buy_apis = person.Buy_consumer.all()
     # for i in buy_apis:
@@ -122,6 +139,7 @@ def userCenter(request):
     context = {
         'my_apis':apis,
         'buy_apis':buy_apis,
+        'userID':p.userid,
     }
     return render_to_response('userCenter.html', context)
 
@@ -164,7 +182,6 @@ def ConfigPara(API, parameter):
         para = ParameterReference(api=API, name=param[i]['name'], type=param[i]['type'], defaultValue=param[i]['defaultValue'], \
                                   description=param[i]['description'], nessesary=param[i]['nessesary'])
         para.save()
-    print(dict)
 
 
 def registerApi(request):
@@ -204,7 +221,7 @@ def registerApi(request):
 def edit_api(request):
     if request.method == "POST":
         dict = request.POST.dict()
-        print(dict['apiName'])
+        #print(dict['apiName'])
         api = APIReference.objects.get(name=dict['apiName'])
         json_dict = {}
         error_dict = {}
@@ -219,18 +236,18 @@ def edit_api(request):
         for i, head in enumerate(HeaderReference.objects.filter(api=api).values()):
             head_dict['head' + str(i)] = head
         json_dict['head'] = head_dict
-        print(json.dumps(json_dict))
+        #print(json.dumps(json_dict))
         return HttpResponse(json.dumps(json_dict))
 
 
 
 def modifyApi(request, param1):
-    print(param1)
+    #print(param1)
     api = APIReference.objects.get(name=param1)
     if request.method == "POST":
         info = request.POST.copy()
         parameter = info['parameter']
-        print(parameter)
+        #print(parameter)
         del info['parameter']
         form = APIForm_modify(info, request.FILES, instance=api)
         if form.is_valid():
@@ -262,9 +279,9 @@ def modifyApi(request, param1):
 def delete_api(request):
     if request.method == "POST":
         dict = request.POST.dict()
-        print(dict['apiName'])
+        #(dict['apiName'])
         api = APIReference.objects.get(name=dict['apiName'])
-        print(api)
+        #print(api)
         api.delete()
         return HttpResponseRedirect('/userCenter/')
 
@@ -274,7 +291,6 @@ def ConfigConsumer(username):
     consumer.save()
     KeyAuth = KeyAuthReference(consumer=consumer)
     KeyAuth.save()
-    print(consumer.id)
     client = factory.get_kong_client()
     obj = ConsumerReference.objects.get(id=consumer.id)
     logic.synchronize_consumer(client, obj, toggle=False)
@@ -282,14 +298,19 @@ def ConfigConsumer(username):
 
 def registerConsumer(request):
     if request.method == "GET":
-        print(request.GET)
+        #print(request.GET)
         name = request.GET.get('name')
         back = request.GET.get('callback')
-        print(name)
+        #print(name)
         d = {}
         d['message'] = '1'
         obj = json.dumps(d)
-        ConfigConsumer(name)
+        if name:
+            ConfigConsumer(name)
+        else:
+            send_mail(u"创建用户"+name+u"失败", message, 'bupt2012211305@sina.com',
+                      ['845842278@qq.com'], fail_silently=False)
+            return HttpResponse("field")
         return HttpResponse(str(back+'('+ obj+')'))
 
 def apiHandler(request):

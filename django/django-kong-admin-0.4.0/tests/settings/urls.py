@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function
 from django.conf.urls import include, url
-from django.contrib import admin
+# from django.contrib import admin
+from kong_admin.admin import admin_site
 import os
 BASE_DIR2 = os.path.dirname(os.path.dirname(__file__))
 
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin_site.urls)),
+    url(r'^admin/OtherAuth/$', 'kong_admin.views.OtherAuth'),
+    # url(r'^admin/', include(admin.site.urls)),
     url(r'^kongconfig/', 'kong_admin.views.show_config'),
     url(r'^api/$', 'tests.views.index'),
     url(r'^apiList/$', 'tests.views.apiList'),

@@ -2,16 +2,18 @@
 from __future__ import unicode_literals, print_function
 from contextlib import closing
 import json
-
+from django.contrib.auth import (
+    REDIRECT_FIELD_NAME, get_user_model, login as auth_login, authenticate
+)
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from django.http.response import HttpResponse
-
+from django.contrib.auth.models import User
 from . import logic, factory
-from .models import APIReference, ConsumerReference
-
+from .models import APIReference, ConsumerReference, Userinfo
+import hashlib
 
 @staff_member_required
 def synchronize_api_references(request, queryset=None):
@@ -89,3 +91,23 @@ def _synchronize_single_reference(request, sync_func, entity_name, obj, toggle_e
                                        'changes are visible!)' % entity_name)
     if "HTTP_REFERER" in request.META:
         return HttpResponseRedirect(request.META["HTTP_REFERER"])
+
+
+def OtherAuth(request):
+    username = request.GET.get('username')
+    token = request.GET.get('token')
+    try:
+        user = User.objects.get(username__exact=username)
+        person = Userinfo.objects.get(username__exact=username)
+        password = person.password
+        print(person)
+        print(password)
+        md5 = hashlib.new("md5", password).hexdigest()
+        print(md5)
+        print(username)
+        if token == md5:
+            user.backend = 'django.contrib.auth.backends.ModelBackend'
+            auth_login(request, user)
+    except:
+        pass
+    return HttpResponseRedirect("/admin/")

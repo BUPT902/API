@@ -312,8 +312,9 @@ $(document).ready(function(){
                     createUseApiMsg("申请使用成功");
                 }else if(response === '2'){
                     createUseApiMsg("失败了");
+                }else if(response === '3'){
+                    createUseApiMsg("您没有使用该API的权限");}
                 }
-            }
         });
 
     });

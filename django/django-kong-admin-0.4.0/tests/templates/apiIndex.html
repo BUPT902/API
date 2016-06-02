@@ -59,7 +59,8 @@
 
         var encode = encodeURIComponent(url);
         var returnUrl = baseUrl+"?returnUrl="+encode;
-        $("#login").attr("href", returnUrl);
+        console.log('123');
+        $('#login').attr("href", returnUrl);
     });
     $("#footer").load("../apiFooter");
         $(function(){

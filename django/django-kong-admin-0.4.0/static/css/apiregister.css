@@ -783,6 +783,7 @@ pre{
     top: 50%;
     left: 10%;
     margin-top: -100px;
+    text-align: center;
 }
 .api-upload-intro .api-register{
     display: inline-block;

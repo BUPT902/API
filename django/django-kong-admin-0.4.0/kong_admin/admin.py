@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib import admin
 from jsonfield2.fields import JSONField
 import models
+from django.contrib.admin import AdminSite
 
 from .models import APIReference, PluginConfigurationReference, ConsumerReference, \
     BasicAuthReference, KeyAuthReference, OAuth2Reference, AclReference, \
@@ -14,6 +15,14 @@ from kong_admin.views import synchronize_api_reference, synchronize_api_referenc
     synchronize_consumer_references
 from .contrib import ActionButtonModelAdmin
 from .widgets import JSONWidget
+
+class MyAdminSite(AdminSite):
+    site_title = u"API管理"
+    site_header = u'API管理系统'
+    index_title = u'API管理系统'
+
+admin_site = MyAdminSite(name='myadmin')
+
 
 
 def get_toggle_enable_caption(obj):
@@ -92,7 +101,7 @@ class APIReferenceAdmin(ActionButtonModelAdmin):
 
 
 admin.site.register(APIReference, APIReferenceAdmin)
-
+admin_site.register(APIReference, APIReferenceAdmin)
 
 class BasicAuthInline(admin.StackedInline):
     model = BasicAuthReference
@@ -164,11 +173,12 @@ class ConsumerReferenceAdmin(ActionButtonModelAdmin):
         return obj.username or obj.custom_id
 
 
-admin.site.register(ConsumerReference, ConsumerReferenceAdmin)
-
+# admin.site.register(ConsumerReference, ConsumerReferenceAdmin)
+admin_site.register(ConsumerReference, ConsumerReferenceAdmin)
 
 class BuyReferenceAdmin(admin.ModelAdmin):
     list_display = ('consumer', 'api', 'created_at')
     fields = ('consumer', 'api', 'created_at')
     readonly_fields = ('created_at', )
-admin.site.register(BuyReference, BuyReferenceAdmin)
+# admin.site.register(BuyReference, BuyReferenceAdmin)
+admin_site.register(BuyReference, BuyReferenceAdmin)
