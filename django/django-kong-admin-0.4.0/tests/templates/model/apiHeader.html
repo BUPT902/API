@@ -3,10 +3,9 @@
         <nav class="header-fix">
             <div class="navbar-index clearfix">
                 <div class="brand">大数据平台</div>
-                <ul class="navbar-group">
+                <ul id="navbarGroup" class="navbar-group">
                     <li><a href="/api">首页</a></li>
                     <li><a href="/apiList">API列表</a></li>
-                    <li><a href="/userCenter">用户中心</a></li>
                 </ul>
 
                 <div id="userInfo" class="user">
@@ -46,14 +45,19 @@
                 };
                 var html = "<a class='register' href='http://10.103.246.124:8080/register'>注册</a> <a id='login' class='login' href='http://10.103.246.124:8080/login'>登录</a>"
                 $("#userInfo").html(html);
+                if($("#userCenter")){
+                    $("#userCenter").remove();
+                }
             } else {
                 params = {
                     "status" : 1,
                     "username" : data["name"]
                 };
                 var html = "<span>欢迎你：</span> <a href='login.html'>"+data["name"]+"</a><span> | </span> <a style='margin-left: 10px; color: #999;' href='http://10.103.246.124:8080/logout/'>注销</a>";
+                var userCenter = "<li id='userCenter'><a href='/userCenter'>用户中心</a></li>";
 
                 $("#userInfo").html(html);
+                $("#navbarGroup").append(userCenter);
             }
             setUserInfo(params);
         });
